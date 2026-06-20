@@ -1,25 +1,26 @@
 # straussteacher.github.io
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lernmodul: C# Vererbung im RPG-Szenario</title>
+    <title>Lernmodul: Vererbung in C#</title>
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent-expert: #8e44ad;
-            --bg-light: #f8f9fa;
-            --text-dark: #333333;
-            --border-color: #dddddd;
+            --primary: #2b3e50;
+            --secondary: #18bc9c;
+            --dark: #2c3e50;
+            --light: #f8f9fa;
+            --warning: #e74c3c;
+            --accent: #8e44ad;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: var(--text-dark);
-            background-color: #ffffff;
+            background-color: #f4f6f7;
+            color: var(--dark);
             margin: 0;
             padding: 0;
         }
@@ -27,33 +28,78 @@
         header {
             background-color: var(--primary);
             color: white;
-            padding: 2rem 1rem;
+            padding: 2rem;
             text-align: center;
+            border-bottom: 5px solid var(--secondary);
         }
 
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
         }
 
-        .grid-visuals {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+        .nav-modules {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary);
+        }
+
+        .btn-vertiefung {
+            background-color: var(--accent);
+        }
+
+        .btn-vertiefung:hover {
+            background-color: #732d91;
         }
 
         .card {
-            background: var(--bg-light);
-            border: 1px solid var(--border-color);
+            background: white;
             border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--secondary);
         }
 
-        .card.krieger { border-left: 5px solid #e74c3c; }
-        .card.magier { border-left: 5px solid #3498db; }
+        .card-vertiefung {
+            border-left: 5px solid var(--accent);
+            background-color: #fdf6ff;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 3px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .badge-danger {
+            background-color: var(--warning);
+        }
+
+        .badge-vertiefung {
+            background-color: var(--accent);
+        }
 
         pre {
             background-color: #272822;
@@ -62,164 +108,193 @@
             border-radius: 5px;
             overflow-x: auto;
             font-family: 'Consolas', monospace;
-            font-size: 0.9rem;
         }
 
-        .keyword { color: #f92672; }
-        .classname { color: #a6e22e; }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
 
-        /* Didaktische Boxen */
-        .didactic-note {
-            background-color: #e8f4f8;
-            border-left: 5px solid var(--secondary);
+        @media(min-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .visual-placeholder {
+            background-color: #e9ecef;
+            border: 2px dashed #ced4da;
+            border-radius: 5px;
             padding: 1rem;
-            margin: 1.5rem 0;
-            border-radius: 0 5px 5px 0;
-        }
-
-        /* Differenzierung nach oben */
-        .expert-section {
-            background-color: #faf5ff;
-            border: 2px dashed var(--accent-expert);
-            border-radius: 8px;
-            padding: 2rem;
-            margin-top: 4rem;
-            position: relative;
-        }
-
-        .expert-badge {
-            background-color: var(--accent-expert);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.85rem;
-            font-weight: bold;
-            border-radius: 3px;
-            position: absolute;
-            top: -12px;
-            left: 20px;
-            text-transform: uppercase;
-        }
-
-        .self-check {
-            background-color: #fcf8e3;
-            border-left: 5px solid #f0ad4e;
-            padding: 1rem;
-            margin: 1.5rem 0;
-        }
-
-        footer {
             text-align: center;
-            padding: 2rem;
-            background-color: var(--bg-light);
-            margin-top: 3rem;
-            border-top: 1px solid var(--border-color);
+            font-style: italic;
+            color: #6c757d;
+            margin: 1rem 0;
+        }
+
+        .alert-box {
+            background-color: #fadbd8;
+            border-left: 5px solid var(--warning);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>C# Objektorientierung: Grundlagen der Vererbung</h1>
-        <p>Didaktisch aufbereitetes Selbstlernmodul für Fachinformatiker</p>
+        <h1>Objektorientierte Programmierung in C#</h1>
+        <p>Didaktisches Selbstlernmedium: Das Prinzip der Vererbung</p>
     </header>
 
     <div class="container">
         
-        <section id="intro">
-            <h2>Der Einstieg: Vererbung verstehen</h2>
-            <p>Vererbung dient der <strong>Strukturierung von Daten</strong> und der <strong>Vermeidung von redundantem Code (DRY - Don't Repeat Yourself)</strong>. Wir betrachten dies isoliert von der Polymorphie anhand eines Rollenspiels (RPG).</p>
-            
-            <div class="didactic-note">
-                <strong>Didaktischer Hinweis (Logiklücken vermeiden):</strong> 
-                Ein gutes Klassendesign bildet nur die Attribute ab, die für die jeweilige Rolle <em>essentiell</em> sind. Ein Krieger benötigt im Kampf mentale Fokussierung in Form von Wutpunkten. Ein Magier nutzt arkane Energie (Mana). Würden wir alle Attribute in eine einzige Riesen-Klasse stopfen, hätten wir Datenmüll (z.B. ungenutzte Mana-Felder beim Krieger).
-            </div>
-        </section>
+        <div class="nav-modules">
+            <a href="#grundlagen" class="btn">Modul 1: Grundlagen</a>
+            <a href="#vertiefung" class="btn btn-vertiefung">Modul 2: Vertiefung (Level Up!)</a>
+        </div>
 
-        <section id="datenmodell">
-            <h2>Das Klassenmodell im Code</h2>
+        <section id="grundlagen">
+            <h2><span class="badge">Modul 1</span> Klassische Vererbung (Daten- & Strukturfokus)</h2>
             
-            <h3>1. Die Basisklasse (Elternklasse)</h3>
-            <p>Enthält Eigenschaften, die absolut jede Entität im Spiel besitzt.</p>
-            <pre><code><span class="keyword">public class</span> <span class="classname">Spielfigur</span>
+            <div class="card">
+                <h3>Das Szenario & Die Basisklasse</h3>
+                <p>Wenn wir ein Rollenspiel (RPG) programmieren, teilen sich alle Entitäten Kern-Eigenschaften. Statt Code zu kopieren, nutzen wir eine <strong>Basisklasse</strong>.</p>
+                
+                <div class="visual-placeholder">
+                    <strong>Grafik 1: Die Basisklasse</strong><br>
+                    Ein zentraler Strukturkasten "Spielfigur" mit den Feldern [Name] und [Lebenspunkte]. Ein Pfeil zeigt nach unten zu den Spezialisierungen.
+                </div>
+
+                <pre><code>// Die übergeordnete Basisklasse
+public class Spielfigur
 {
-    <span class="keyword">public string</span> Name { <span class="keyword">get; set;</span> }
-    <span class="keyword">public int</span> Lebenspunkte { <span class="keyword">get; set;</span> }
+    public string Name { get; set; }
+    public int Lebenspunkte { get; set; }
 
-    <span class="keyword">public void</span> Bewegen()
+    public void Bewegen()
     {
-        Console.WriteLine(<span class="keyword">$"</span>{Name} bewegt sich.<span class="keyword">"</span>);
+        Console.WriteLine($"{Name} bewegt sich vorwärts.");
     }
 }</code></pre>
+            </div>
 
-            <h3>2. Die Spezialisierungen (Kindklassen)</h3>
-            <p>Durch den Doppelpunkt <code>:</code> erben die Kindklassen alle Eigenschaften und Methoden der Basisklasse und erweitern diese.</p>
-            
-            <div class="grid-visuals">
-                <div class="card krieger">
-                    <h4>Der Krieger</h4>
-                    <p><em>Erbt von Spielfigur.</em> Erhält exklusiv die Eigenschaft <code>Wutpunkte</code>. Er benötigt kein Mana, da seine Fähigkeiten auf physischer Kraft basieren.</p>
-                    <pre><code><span class="keyword">public class</span> <span class="classname">Krieger</span> : <span class="classname">Spielfigur</span>
+            <div class="grid">
+                <div class="card">
+                    <h3>Abgeleitete Klasse: Der Krieger</h3>
+                    <p>Ein Krieger <strong>ist eine</strong> Spielfigur. Er erbt Name und Lebenspunkte, benötigt aber eine eigene Ressource für Nahkampfangriffe: <strong>Wutpunkte</strong>.</p>
+                    
+                    <div class="visual-placeholder">
+                        <strong>Grafik 2: Spezialisierung Krieger</strong><br>
+                        Krieger-Icon in Plattenrüstung. Liste zeigt geerbte Variablen verblasst und die exklusive Variable [Wutpunkte] hervorgehoben.
+                    </div>
+
+                    <pre><code>// Syntax in C#: Doppelpunkt bedeutet "erbt von"
+public class Krieger : Spielfigur
 {
-    <span class="keyword">public int</span> Wutpunkte { <span class="keyword">get; set;</span> }
+    public int Wutpunkte { get; set; }
 }</code></pre>
+                    <p><strong>Logik-Check (Differenzierung nach unten):</strong> Warum hat der Krieger kein Mana? Ein Krieger nutzt physische Kraft. Magische Energien würden das System unlogisch aufblähen.</p>
                 </div>
+
+                <div class="card">
+                    <h3>Abgeleitete Klasse: Der Magier</h3>
+                    <p>Ein Magier <strong>ist eine</strong> Spielfigur. Er benötigt für seine Zaubersprüche eine völlig andere Ressource als der Krieger: <strong>Mana</strong>.</p>
+                    
+                    <div class="visual-placeholder">
+                        <strong>Grafik 3: Spezialisierung Magier</strong><br>
+                        Magier-Icon mit Zauberstab. Zeigt die exklusive Variable [Mana] im Objekt-Speicher.
+                    </div>
+
+                    <pre><code>public class Magier : Spielfigur
+{
+    public int Mana { get; set; }
+}</code></pre>
+                    <p><strong>Logik-Check (Differenzierung nach unten):</strong> Warum trägt der Magier keine Rüstungswerte? Im Spieldesign verlässt er sich auf Schutzzauber und Stoffbekleidung. Schwere Rüstungswerte gehören strukturell nicht in diese Klasse.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Anwendung im Code</h3>
+                <p>Objekte der abgeleiteten Klassen haben automatisch Zugriff auf die Eigenschaften der Basisklasse:</p>
+                <pre><code>Krieger k = new Krieger();
+k.Name = "Thorin";       // Geerbt aus Spielfigur!
+k.Wutpunkte = 80;        // Direkt aus Krieger
+
+Magier m = new Magier();
+m.Name = "Gandalf";      // Geerbt aus Spielfigur!
+m.Mana = 150;            // Direkt aus Magier</code></pre>
+            </div>
+        </section>
+
+        <hr style="border: 2px solid var(--accent); margin: 4rem 0;">
+
+        <section id="vertiefung">
+            <h2><span class="badge badge-vertiefung">Modul 2</span> Vertiefung & Architektur-Herausforderungen</h2>
+            
+            <div class="alert-box">
+                <strong>WICHTIGER HINWEIS:</strong> Dieses Modul dient als Differenzierung nach oben. Bearbeiten Sie diesen Abschnitt erst, wenn Sie Modul 1 vollständig verstanden und in der Praxis fehlerfrei angewendet haben!
+            </div>
+
+            <div class="card card-vertiefung">
+                <h3>Das Diamond-Problem (Mehrfachvererbung)</h3>
+                <p>In manchen Programmiersprachen (wie C++) kann eine Klasse von mehreren Klassen gleichzeitig erben. Das führt zu einem massiven logischen Konflikt, dem sogenannten <strong>Diamond-Problem (Smaragd- oder Diamant-Problem)</strong>.</p>
                 
-                <div class="card magier">
-                    <h4>Der Magier</h4>
-                    <p><em>Erbt von Spielfigur.</em> Erhält exklusiv die Eigenschaft <code>Mana</code>. Er trägt im System keine schwere Rüstung, weshalb dieses Attribut hier bewusst fehlt.</p>
-                    <pre><code><span class="keyword">public class</span> <span class="classname">Magier</span> : <span class="classname">Spielfigur</span>
-{
-    <span class="keyword">public int</span> Mana { <span class="keyword">get; set;</span> }
-}</code></pre>
+                <div class="visual-placeholder" style="border-color: var(--accent);">
+                    <strong>Grafik 5: Das Diamond-Problem</strong><br>
+                    Strukturbaum: [A] steht oben. [B] und [C] erben von [A]. Klasse [D] versucht, von [B] UND [C] gleichzeitig zu erben. Die Form bildet eine Raute (Diamant).
                 </div>
-            </div>
-        </section>
 
-        <section id="praxis">
-            <h2>Anwendungsbeispiel</h2>
-            <p>Obwohl in der Klasse <code>Krieger</code> kein Name definiert wurde, können wir via Vererbung direkt darauf zugreifen:</p>
-            <pre><code>Krieger krieger = <span class="keyword">new</span> Krieger();
-krieger.Name = <span class="keyword">"Gimli"</span>;       <span class="comment">// Geerbt von Spielfigur</span>
-krieger.Wutpunkte = 100;       <span class="comment">// Spezifisch für Krieger</span>
-krieger.Bewegen();             <span class="comment">// Methode geerbt!</span></code></pre>
-        </section>
+                <h4>Das theoretische Dilemma im RPG:</h4>
+                <ul>
+                    <li>Angenommen, Klasse <code>B (Kampfmagier)</code> und Klasse <code>C (Paladin)</code> erben beide von <code>Spielfigur</code>.</li>
+                    <li>Beide Klassen modifizieren intern die Art und Weise, wie Daten verwaltet werden (z.B. Speicher-Layouts).</li>
+                    <li>Wenn nun eine neue Klasse <code>D (Magischer Ritter)</code> von <strong>B und C gleichzeitig</strong> erben würde, und man ruft eine geerbte Eigenschaft auf: Welche Version erhält Klasse D? Die von Klasse B oder Klasse C?</li>
+                </ul>
 
-        <section class="self-check">
-            <h3>Selbstkontrolle (Differenzierung nach unten / Unterstützung)</h3>
-            <p>Prüfe dein Wissen, bevor du weitergehst:</p>
-            <ul>
-                <li>Kann ein Magier-Objekt auf das Attribut <code>Wutpunkte</code> zugreifen? (Antwort: Nein, Geschwisterklassen teilen ihre spezifischen Attribute nicht).</li>
-                <li>Welche Beziehung beschreibt die Vererbung? (Antwort: Eine "IS-A" / "IST-EIN"-Beziehung).</li>
-            </ul>
-        </section>
-
-        <section class="expert-section">
-            <span class="expert-badge">Erweiterung / Challenge (Nach oben)</span>
-            <h2>Vertiefung: Das Diamond-Problem & C#-Besonderheiten</h2>
-            <p><em>Hinweis: Bearbeite diesen Bereich erst, wenn du die obigen Grundlagen fehlerfrei verstanden hast!</em></p>
-            
-            <h3>Das Diamond-Problem (Mehrfachvererbung)</h3>
-            <p>Stell dir vor, wir wollten eine Hybrid-Klasse namens <code>Kampfmagier</code> erstellen, die sowohl von <code>Krieger</code> als auch von <code>Magier</code> erbt. Das nennt man Mehrfachvererbung.</p>
-            
-            <p><strong>Das Problem:</strong> Angenommen, sowohl <code>Krieger</code> als auch <code>Magier</code> hätten eine Methode namens <code>Angreifen()</code> eigenständig implementiert. Wenn der <code>Kampfmagier</code> nun <code>Angreifen()</code> aufruft – welche Methode soll der Compiler wählen? Die des Kriegers oder die des Magiers? Diese fundamentale Mehrdeutigkeit nennt man das <strong>Diamond-Problem</strong> (Rauten-Problem).</p>
-            
-            <div class="didactic-note" style="border-color: var(--accent-expert); background-color: #f3e5f5;">
-                <strong>Wie löst C# das?</strong>
-                C# verbietet Mehrfachvererbung bei Klassen strikt! Eine Klasse kann nur <strong>eine</strong> Basisklasse haben. Wenn wir Schnittmengen erzwingen wollen, nutzen wir in C# <strong>Interfaces (Schnittstellen)</strong>, da eine Klasse beliebig viele Interfaces implementieren darf.
+                <p><strong>Die C#-Lösung:</strong> Um diese unlösbaren Mehrdeutigkeiten zu verhindern, erlaubt C# **keine Mehrfachvererbung für Klassen**. Jede Klasse hat exakt eine Elternklasse.</p>
             </div>
 
-            <h3>Weitere Profi-Keywords für C#</h3>
-            <ul>
-                <li><strong><code>base</code>-Keyword:</strong> Mit <code>base</code> kann die Kindklasse explizit auf Konstruktoren oder Member der Elternklasse zugreifen (z.B. bei der Konstruktor-Verkettung).</li>
-                <li><strong><code>sealed</code>-Klassen:</strong> Wenn du verhindern willst, dass andere Entwickler von deiner Klasse erben können (z.B. aus Sicherheits- oder Performancegründen), markiere sie als <code>public sealed class AdminUser</code>. Die Vererbungslinie wird damit unwiderruflich abgeschnitten.</li>
-            </ul>
+            <div class="card card-vertiefung">
+                <h3>Wie löst man das in C#? (Schnittstellen/Interfaces)</h3>
+                <p>Wenn ein Charakter zwingend Fähigkeiten aus zwei Welten braucht, greift man in C# auf <strong>Interfaces (Schnittstellen)</strong> zurück. Eine Klasse darf nur von einer Klasse erben, aber **unendlich viele Interfaces implementieren**.</p>
+                
+                <pre><code>// Ein Interface erzwingt nur die Struktur, es vererbt keine Variablen-Werte!
+public interface IZauberbar
+{
+    int Mana { get; set; }
+    void Zaubern();
+}
+
+// Der Kampfmagier erbt Basis-Daten vom Krieger UND implementiert das Magie-Interface
+public class Kampfmagier : Krieger, IZauberbar
+{
+    public int Mana { get; set; }
+    public void Zaubern() 
+    {
+        Console.WriteLine("Zauber gewirkt!");
+    }
+}</code></pre>
+            </div>
+
+            <div class="card card-vertiefung">
+                <h3>Weiteres Expertenwissen: Das <code>sealed</code>-Keyword</h3>
+                <p>Manchmal möchte man als Software-Architekt verhindern, dass andere Entwickler von einer Klasse erben (z.B. aus Sicherheitsgründen oder zur Performance-Optimierung).</p>
+                <p>Mit dem Schlüsselwort <code>sealed</code> wird die Vererbungskette unwiderruflich gesperrt:</p>
+                <pre><code>// Von dieser Klasse kann NIEMAND mehr erben
+public sealed class Endboss : Spielfigur
+{
+    public int WeltuntergangsSchaden { get; set; }
+}
+
+// Das hier würde einen Compiler-Fehler erzeugen:
+// public class MiniBoss : Endboss { } </code></pre>
+            </div>
         </section>
 
     </div>
-
-    <footer>
-        <p>Lernplattform für Fachinformatiker | Thema: OOP Vererbung in C#</p>
-    </footer>
 
 </body>
 </html>

@@ -577,12 +577,13 @@
 {
     <span class="code-comment">// Eigenschaften der Oberklasse</span>
 }
-<code><pre>
+
 <span class="code-comment">// Krieger erbt strukturell von Spielfigur</span>
 <span class="code-keyword">public class</span> <span class="code-type">Krieger</span> : <span class="code-type">Spielfigur</span>
 {
     <span class="code-comment">// Eigenschaften der Unterklasse</span>
 }</div>
+</code></pre>
 
                     <h3>Einfachvererbung</h3>
                     <p>Ein wichtiges Prinzip in C# lautet: <strong>Es gibt nur Einfachvererbung für Klassen</strong>. Das bedeutet, dass eine Klasse in C# immer nur von genau <strong>einer</strong> direkten Basisklasse erben darf. Eine Zeile wie <code>class Paladin : Krieger, Magier</code> ist in C# verboten.</p>
@@ -643,7 +644,7 @@
                     <h3>Wie der Aufruf abläuft & das Wort 'base'</h3>
                     <p>Wenn du ein Objekt einer Kindklasse erstellst, wird im Hintergrund <strong>immer zuerst</strong> ein Konstruktor der Basisklasse aufgerufen. Wenn du nichts extra dazuschreibst, sucht der Compiler automatisch nach dem Standardkonstruktor (ohne Parameter) der Basisklasse.</p>
                     <p>Wenn die Basisklasse aber Parameter im Konstruktor erwartet, benutzt man das Schlüsselwort <strong>base</strong>, um die Werte nach oben weiterzureichen:</p>
-
+<pre><code>
                     <div class="code-block"><span class="code-keyword">public class</span> <span class="code-type">Spielfigur</span>
 {
     <span class="code-keyword">public</span> <span class="code-type">Spielfigur</span>(<span class="code-type">string</span> <span class="code-param">name</span>)
@@ -660,7 +661,7 @@
         <span class="code-comment">// Eigene Variable des Kriegers setzen</span>
     }
 }</div>
-                `,
+</code></pre>                `,
                 quiz: [
                     {
                         question: "Welche Aussage über Konstruktoren bei der Vererbung stimmt?",
@@ -744,7 +745,7 @@
 
                     <h3>Methoden überschreiben mit 'virtual' und 'override'</h3>
                     <p>Damit Polymorphie funktioniert, muss die Basisklasse erlauben, dass ihre Methoden in den Unterklassen neu geschrieben werden dürfen. Das macht man mit dem Wort <strong>virtual</strong>. Die Unterklasse zeigt mit dem Wort <strong>override</strong>, dass sie die Methode neu definiert:</p>
-
+<pre><code>
                     <div class="code-block"><span class="code-keyword">public class</span> <span class="code-type">Spielfigur</span>
 {
     <span class="code-keyword">public virtual void</span> <span class="code-type">Angreifen</span>()
@@ -760,11 +761,13 @@
         <span class="code-type">Console</span>.<span class="code-type">WriteLine</span>(<span class="code-string">"Der Krieger schlägt mit dem Schwert zu!"</span>);
     }
 }</div>
-
+</code></pre> 
                     <h3>Der dynamische Aufruf</h3>
                     <p>Wenn wir eine Variable vom Typ <code>Spielfigur</code> anlegen, ihr aber einen <code>Krieger</code> zuweisen, sorgt die Polymorphie dafür, dass beim Angreifen die Methode des Kriegers ausgeführt wird:</p>
+                    <pre><code>
                     <div class="code-block"><span class="code-type">Spielfigur</span> <span class="code-param">meinHeld</span> = <span class="code-keyword">new</span> <span class="code-type">Krieger</span>();
 <span class="code-param">meinHeld</span>.<span class="code-type">Angreifen</span>(); <span class="code-comment">// Ausgabe: Der Krieger schlägt mit dem Schwert zu!</span></div>
+</code></pre> 
                 `,
                 quiz: [
                     {

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wissensportal Ausbildung – Fertigungsverfahren und Fügen (einfache Fassung)</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--teal:#0b5563;--teal2:#0e6b7c;--orange:#f39229;--bg:#f4f7f8;--line:#d6e0e3;--text:#1f2d33;--muted:#55666d}
+body{font-family:"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text);font-size:17px;line-height:1.6}
+.top{background:#fff;border-bottom:4px solid var(--teal);padding:10px 16px}
+.top .in{max-width:1000px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.top img{height:54px}
+.top .t1{font-weight:700;color:var(--teal);font-size:1.15rem}
+.top .t2{color:var(--muted);font-size:.9rem}
+.variant{margin-left:auto;display:flex;gap:6px;align-items:center;font-size:.9rem}
+.variant a{padding:6px 12px;border-radius:999px;border:2px solid var(--teal);color:var(--teal);text-decoration:none;font-weight:600}
+.variant a.on{background:var(--teal);color:#fff}
+main{max-width:1000px;margin:0 auto;padding:18px 16px 40px}
+.back{font-size:.9rem;margin-bottom:10px}.back a{color:var(--teal2)}
+h1{font-size:1.6rem;color:var(--teal);margin-bottom:4px}
+.lead{color:var(--muted);margin-bottom:16px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tab{flex:1 1 240px;padding:12px 16px;border:2px solid var(--line);background:#fff;border-radius:10px;cursor:pointer;font-weight:700;font-size:1rem;color:var(--muted);text-align:left;font-family:inherit}
+.tab small{display:block;font-weight:400;font-size:.85rem}
+.tab.on{border-color:var(--teal);color:var(--teal);background:#e6f1f3}
+.progress{background:#e3eaec;border-radius:999px;height:28px;margin-bottom:16px;overflow:hidden}
+.progress div{height:100%;background:linear-gradient(90deg,var(--teal),#22a06b);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:width .4s;min-width:0;white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.mcard{background:#fff;border:2px solid var(--line);border-radius:12px;padding:18px;cursor:pointer;position:relative;text-align:left;font-family:inherit;font-size:inherit;color:inherit}
+.mcard:hover:not(.locked){border-color:var(--teal)}
+.mcard .ic{font-size:2rem}
+.mcard h3{color:var(--teal);font-size:1.1rem;margin:6px 0}
+.mcard p{color:var(--muted);font-size:.95rem}
+.mcard.done{border-color:#22a06b}
+.mcard.done::after{content:"✓";position:absolute;top:10px;right:12px;background:#22a06b;color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
+.mcard.locked{opacity:.55;cursor:not-allowed;border-style:dashed}
+.mcard.locked::after{content:"🔒";position:absolute;top:10px;right:12px}
+.mcard.vertiefung{background:#fff8ef;border-color:#f6c58d}
+.view{display:none;background:#fff;border:2px solid var(--line);border-radius:12px;padding:22px}
+.view.on{display:block}
+.view h2{color:var(--teal);font-size:1.35rem;border-bottom:2px solid var(--line);padding-bottom:8px;margin-bottom:14px}
+.view p{margin-bottom:10px}
+.view ul{margin:0 0 12px 22px}.view li{margin-bottom:6px}
+.tablewrap{overflow-x:auto;margin:10px 0 14px}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+@media (max-width:600px){body{font-size:16px}table{font-size:.82rem}th,td{padding:6px}.view{padding:14px}}
+th,td{border:1px solid #c5d2d6;padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#e6eef0;color:var(--teal)}
+.merke{background:#fff4cc;border:2px solid #e9c862;border-radius:8px;padding:12px 14px;margin:12px 0}
+figure{margin:12px 0;text-align:center}figure img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff}
+figcaption{font-size:.85rem;color:var(--muted)}
+.check{margin-top:22px;background:#f1f6f7;border-radius:10px;padding:16px}
+.check h3{color:var(--teal);margin-bottom:12px}
+.q{background:#fff;border:2px solid var(--line);border-radius:8px;padding:14px;margin-bottom:14px}
+.q.ok{border-color:#22a06b;background:#effaf4}.q.no{border-color:#d9534f;background:#fdf0ef}
+.q .qt{font-weight:700;margin-bottom:8px}
+.opt{display:block;width:100%;text-align:left;padding:10px 12px;margin:6px 0;border:1px solid #c5d2d6;border-radius:6px;background:#fafcfc;cursor:pointer;font-family:inherit;font-size:1rem;color:inherit}
+.opt:hover{background:#e6f1f3}.opt.sel{border-color:var(--teal);border-width:2px}
+.fb{display:none;margin-top:8px;padding:10px;border-radius:6px;font-size:.95rem}
+.fb.ok{display:block;background:#22a06b;color:#fff}.fb.no{display:block;background:#d9534f;color:#fff}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.b{padding:12px 20px;border-radius:8px;border:none;font-weight:700;font-size:1rem;cursor:pointer;font-family:inherit}
+.b.p{background:var(--teal);color:#fff}.b.s{background:#7a8a90;color:#fff}
+.msg{display:none;margin-top:12px;padding:12px;border-radius:8px;font-weight:600}
+.msg.on{display:block}.msg.warn{background:#fdecc8;color:#7a4b00}.msg.good{background:#d7f3e3;color:#11603a}
+.badge{display:none;margin-top:16px;background:linear-gradient(135deg,var(--teal),#22a06b);color:#fff;border-radius:12px;padding:22px;text-align:center}
+.badge.on{display:block}.badge .big{font-size:2.6rem}
+.foot{max-width:1000px;margin:0 auto;padding:0 16px 30px;color:var(--muted);font-size:.8rem}
+</style>
+</head>
+<body>
+<div class="top"><div class="in">
+  <img src="../../assets/logo_rednitz_anlagenbau.png" alt="Rednitz Anlagenbau GmbH">
+  <div><div class="t1">Wissensportal Ausbildung</div><div class="t2">Rednitz Anlagenbau GmbH · Fertigungstechnik</div></div>
+  <div class="variant">Textfassung: <a href="fertigungsverfahren_fuegen.html" onclick="location.href=this.getAttribute('href')+location.hash;return false" class="">Standard</a><a href="fertigungsverfahren_fuegen_einfach.html" onclick="location.href=this.getAttribute('href')+location.hash;return false" class="on">Einfach</a></div>
+</div></div>
+<main>
+  <div class="back"><a href="index.html">← Übersicht Lernfeld 3</a></div>
+  <h1>Fertigungsverfahren und Fügen</h1>
+  <p class="lead">Lesen Sie die Module. Beantworten Sie danach die Fragen im Verständnis-Check.</p>
+  <div class="tabs">
+    <button class="tab" id="tab-1" onclick="showArea(1)">Bereich 1: Fertigungsverfahren und Wirkprinzip<small>Module A, B und Vertiefung C</small></button>
+    <button class="tab" id="tab-2" onclick="showArea(2)">Bereich 2: Lösbarkeit und Beweglichkeit<small>Module D, E und F</small></button>
+  </div>
+  <div id="overview">
+    <div class="progress"><div id="prog"></div></div>
+    <div class="cards" id="cards-1"><button class="mcard" id="card-A" onclick="openModule('A')"><div class="ic">🏭</div><h3>A  Die sechs Hauptgruppen der Fertigungsverfahren</h3><p>Die sechs Fertigungsverfahren nach DIN 8580: von Urformen bis Stoffeigenschaft ändern.</p></button><button class="mcard" id="card-B" onclick="openModule('B')"><div class="ic">🔩</div><h3>B  Wirkprinzipien von Verbindungen (Schlüssigkeit)</h3><p>Formschluss, Kraftschluss, Stoffschluss: Wie halten Verbindungen?</p></button><button class="mcard vertiefung" id="card-C" onclick="openModule('C')"><div class="ic">⭐</div><h3>C  Vertiefung: Vorgespannt formschlüssige Verbindungen</h3><p>Vertiefung: Wenn Kraftschluss und Formschluss zusammenwirken.</p></button></div>
+    <div class="cards" id="cards-2"><button class="mcard" id="card-D" onclick="openModule('D')"><div class="ic">↔️</div><h3>D  Feste und bewegliche Verbindungen</h3><p>Fest oder beweglich: Ändert sich die Lage der Teile im Betrieb?</p></button><button class="mcard" id="card-E" onclick="openModule('E')"><div class="ic">🔧</div><h3>E  Lösbare und unlösbare Verbindungen</h3><p>Lösbar oder unlösbar: Lässt sich die Verbindung ohne Zerstörung zerlegen?</p></button><button class="mcard" id="card-F" onclick="openModule('F')"><div class="ic">🛠️</div><h3>F  Lösbarkeit und Instandsetzung</h3><p>Was die Lösbarkeit für die Instandsetzung bedeutet.</p></button></div>
+    <div class="msg" id="omsg"></div>
+    <div class="badge" id="badge"><div class="big">🏅</div><h2 id="badge-t"></h2><p id="badge-p"></p></div>
+  </div>
+  <div class="view" id="view"></div>
+</main>
+<div class="foot">Interne Schulungsunterlage der Ausbildungsabteilung · Rednitz Anlagenbau GmbH · Stand 11/2026</div>
+<template id="tpl-A"><p>Jedes Bauteil wird mit <strong>Fertigungsverfahren</strong> hergestellt. Es gibt <strong>sechs Hauptgruppen</strong> (DIN 8580).</p>
+<div class="tablewrap"><table><thead><tr><th>Hauptgruppe</th><th>Was passiert?</th><th>Beispiele</th></tr></thead><tbody><tr><td>1  <strong>Urformen</strong></td><td>Aus flüssigem Metall oder Pulver wird ein <strong>fester Körper</strong>.</td><td>Gießen, Druckgießen, Sintern</td></tr><tr><td>2  <strong>Umformen</strong></td><td>Ein festes Teil wird <strong>verformt</strong>. Es fällt nichts weg.</td><td>Biegen, Abkanten, Tiefziehen, Walzen, Federn wickeln</td></tr><tr><td>3  <strong>Trennen</strong></td><td>Werkstoff wird <strong>abgetrennt</strong>, z. B. als Späne.</td><td>Sägen, Bohren, Drehen, Fräsen, Schleifen, Räumen</td></tr><tr><td>4  <strong>Fügen</strong></td><td>Teile werden <strong>verbunden</strong>.</td><td>Schrauben, Nieten, Einpressen, Schweißen, Löten, Kleben</td></tr><tr><td>5  <strong>Beschichten</strong></td><td>Eine <strong>Schicht</strong> kommt auf das Teil.</td><td>Lackieren, Pulverbeschichten, Verchromen, Verzinken</td></tr><tr><td>6  <strong>Stoffeigenschaft ändern</strong></td><td>Der Werkstoff wird z. B. <strong>härter</strong>. Die Form bleibt.</td><td>Härten, Anlassen, Glühen, Nitrieren</td></tr></tbody></table></div>
+<div class="merke"><strong>MERKE:</strong> Ein Bauteil hat oft <strong>mehrere Verfahren</strong>. Beispiel Zahnrad: <strong>gefräst</strong> (Trennen) → <strong>gehärtet</strong> (Stoffeigenschaft ändern) → <strong>geschliffen</strong> (Trennen).</div></template><template id="tpl-B"><p>Verbindungen übertragen <strong>Kräfte</strong> und <strong>Drehmomente</strong>. Es gibt drei Grundarten:</p>
+<figure><img src="../../assets/lf3/wirkprinzipien.png" alt="Bild 1: Formschluss, Kraftschluss und Stoffschluss"><figcaption>Bild 1: Formschluss, Kraftschluss und Stoffschluss</figcaption></figure>
+<div class="tablewrap"><table><thead><tr><th>Wirkprinzip</th><th>So hält die Verbindung</th><th>Beispiele</th></tr></thead><tbody><tr><td><strong>Formschluss</strong></td><td>Die Teile <strong>greifen ineinander</strong>.</td><td>Passfeder, Keilwelle, Zahnrad und Zahnstange, Stift, Bolzen, Niet</td></tr><tr><td><strong>Kraftschluss</strong></td><td>Die Teile werden <strong>zusammengepresst</strong>. Die <strong>Reibung</strong> hält sie.</td><td>Klemmverbindung, Schraubenverbindung, Kegelverbindung, Pressverbindung</td></tr><tr><td><strong>Stoffschluss</strong></td><td><strong>Werkstoff</strong> hält die Teile zusammen.</td><td>Schweißen, Löten, Kleben</td></tr></tbody></table></div>
+<p>Mehr Beispiele: Tabellenbuch, Stichwort <strong>„Welle-Nabe-Verbindungen“</strong>.</p>
+<p>Die <strong>Reibung</strong> ist größer bei:</p>
+<ul><li><strong>großer</strong> Anpresskraft,</li><li><strong>rauen</strong> Flächen,</li><li><strong>trockenen</strong> Flächen.</li></ul>
+<p>Die Reibung ist kleiner bei <strong>glatten</strong> Flächen und bei <strong>Öl oder Fett</strong>.</p>
+<div class="merke"><strong>MERKE:</strong> <strong>Öl oder Fett</strong> macht die Reibung klein. Dann kann eine <strong>kraftschlüssige</strong> Verbindung <strong>rutschen</strong>. Eine <strong>formschlüssige</strong> Verbindung rutscht nicht.</div></template><template id="tpl-C"><p>Hier wirken <strong>Kraftschluss und Formschluss zusammen</strong>.</p>
+<ul><li>Zuerst werden die Teile <strong>verspannt</strong>, z. B. durch einen Keil oder eine Mutter auf einem Kegel.</li><li>Bei kleiner Belastung hält die <strong>Reibung</strong> (Kraftschluss).</li><li>Ist die Belastung zu groß, liegen Keil bzw. Feder und Nut <strong>aneinander</strong>. Dann hält die <strong>Form</strong> (Formschluss).</li></ul>
+<p>Beispiele: <strong>Keilverbindung</strong>, <strong>Kegelverbindung mit Scheibenfeder</strong>.</p></template><template id="tpl-D"><ul><li><strong>Fest:</strong> Die Teile <strong>bewegen sich im Betrieb nicht</strong> gegeneinander. Beispiele: Zahnrad auf einer Getriebewelle, angeschraubter Deckel.</li><li><strong>Beweglich:</strong> Die Teile <strong>bewegen sich im Betrieb</strong> gegeneinander. Beispiele: Schieberad auf einer Keilwelle, Zahnrad und Zahnstange, Scharnier.</li></ul>
+<p>Ein Teil wird <strong>verstellt und dann festgeklemmt</strong> (z. B. ein Anschlag)? Dann ist die Verbindung im Betrieb <strong>fest</strong>.</p></template><template id="tpl-E"><ul><li><strong>Lösbar:</strong> Man kann die Teile <strong>auseinanderbauen</strong>. Nichts geht kaputt. Beispiele: Schrauben, Passfedern, Stifte, Keilwellen, Klemm- und Kegelverbindungen.</li><li><strong>Unlösbar:</strong> Man muss etwas <strong>zerstören</strong>, z. B. aufbohren, trennschleifen oder absägen. Beispiele: Schweißen, Löten, Kleben, Niete.</li></ul>
+<div class="merke"><strong>MERKE:</strong> Jede Verbindung hat <strong>zwei Merkmale</strong>: <strong>fest oder beweglich</strong> und <strong>lösbar oder unlösbar</strong>.</div>
+<div class="tablewrap"><table><thead><tr><th></th><th>lösbar</th><th>unlösbar</th></tr></thead><tbody><tr><td><strong>fest</strong></td><td>Gehäusedeckel mit Schrauben, Zahnrad mit Passfeder</td><td>Schweißnaht, Niet, Klebung</td></tr><tr><td><strong>beweglich</strong></td><td>Schieberad auf Keilwelle, Zahnrad und Zahnstange</td><td>vernietetes Gelenk (z. B. bei einer Zange)</td></tr></tbody></table></div></template><template id="tpl-F"><ul><li><strong>Lösbar:</strong> lösen → Teil tauschen → wieder montieren. Verschlissene Teile wie eine Schraube mit kaputtem Gewinde werden <strong>erneuert</strong>.</li><li><strong>Unlösbar:</strong> Verbindungselement zerstören (z. B. Niet aufbohren) und <strong>neu fügen</strong>. Oder die <strong>ganze Baugruppe</strong> tauschen.</li></ul>
+<div class="merke"><strong>MERKE:</strong> <strong>„verschweißt“</strong>, <strong>„genietet“</strong> oder <strong>„nur komplett lieferbar“</strong> in Betriebsanleitung oder Ersatzteilkatalog bedeutet: Die Verbindung ist <strong>unlösbar</strong>.</div>
+<p><strong>Sicherheit:</strong> Maschine <strong>ausschalten</strong> und <strong>gegen Wiedereinschalten sichern</strong> (Hauptschalter abschließen).</p></template>
+<script>
+const MODS = {"A": {"title": "A  Die sechs Hauptgruppen der Fertigungsverfahren", "quiz": [{"q": "Ein Kollege fräst eine Nut in eine Welle. Zu welcher Hauptgruppe gehört das Fräsen?", "o": ["Umformen", "Trennen", "Fügen", "Urformen"], "c": 1, "h": "Beim Fräsen entstehen Späne.", "e": "Beim Fräsen wird Werkstoff abgetrennt. Das Fräsen gehört zum Trennen."}, {"q": "Ein Blech wird an der Abkantbank zu einem Winkel gebogen. Was passiert mit dem Zusammenhalt des Werkstoffs?", "o": ["Er bleibt erhalten.", "Er wird geschaffen.", "Er wird verkleinert.", "Er wird vergrößert."], "c": 0, "h": "Beim Abkanten fällt kein Werkstoff weg und es kommt nichts dazu.", "e": "Abkanten ist Umformen. Der Zusammenhalt bleibt erhalten."}, {"q": "Ein Zahnrad wird nach dem Fräsen gehärtet. Zu welcher Hauptgruppe gehört das Härten?", "o": ["Beschichten", "Trennen", "Umformen", "Stoffeigenschaft ändern"], "c": 3, "h": "Beim Härten bleibt die Form gleich. Es kommt keine Schicht dazu.", "e": "Härten ändert die Eigenschaft des Werkstoffs. Es gehört zu Stoffeigenschaft ändern."}]}, "B": {"title": "B  Wirkprinzipien von Verbindungen (Schlüssigkeit)", "quiz": [{"q": "Ein Zahnrad sitzt mit einer Passfeder auf einer Getriebewelle. Wie wird das Drehmoment übertragen?", "o": ["durch Reibung (Kraftschluss)", "durch ineinandergreifende Formen (Formschluss)", "durch Werkstoff (Stoffschluss)"], "c": 1, "h": "Die Passfeder sitzt in einer Nut in der Welle und in der Nabe.", "e": "Die Passfeder greift in beide Nuten. Das ist Formschluss."}, {"q": "Ein Maschinenschraubstock ist mit Spannpratzen auf einen Frästisch geklemmt. Was verringert die Haltekraft dieser Verbindung?", "o": ["raue Auflageflächen", "eine größere Anpresskraft", "Öl auf den Auflageflächen", "trockene, saubere Flächen"], "c": 2, "h": "Eine Klemmverbindung hält durch Reibung.", "e": "Öl verringert die Reibung. Die kraftschlüssige Klemmung hält dann schlechter."}, {"q": "Zwei Stahlrohre eines Geländers werden verschweißt. Welches Wirkprinzip liegt vor?", "o": ["Stoffschluss", "Formschluss", "Kraftschluss"], "c": 0, "h": "Beim Schweißen verbindet geschmolzener Werkstoff die Teile.", "e": "Schweißen ist Stoffschluss. Der Werkstoff hält die Rohre zusammen."}]}, "C": {"title": "C  Vertiefung: Vorgespannt formschlüssige Verbindungen", "quiz": [{"q": "Ein Keil wird zwischen Welle und Nabe eingetrieben. Wie wird das Drehmoment bei kleiner Belastung übertragen?", "o": ["nur formschlüssig", "zunächst durch Reibung (kraftschlüssig)", "stoffschlüssig"], "c": 1, "h": "Der eingetriebene Keil verspannt Welle und Nabe.", "e": "Durch die Verspannung entsteht Reibung. Bei kleiner Belastung reicht der Kraftschluss."}, {"q": "Was passiert bei dieser Keilverbindung, wenn die Reibung nicht mehr ausreicht?", "o": ["Die Nabe dreht frei auf der Welle.", "Die Verbindung löst sich von selbst.", "Keil und Nut liegen aneinander. Das Drehmoment wird formschlüssig übertragen."], "c": 2, "h": "Der Keil liegt in einer Nut.", "e": "Dann übernimmt die Form die Übertragung. Darum heißt die Verbindung vorgespannt formschlüssig."}]}, "D": {"title": "D  Feste und bewegliche Verbindungen", "quiz": [{"q": "Ein Schieberad wird auf einer Keilwelle verschoben, um den Gang zu wechseln. Welche Verbindung liegt vor?", "o": ["eine feste Verbindung", "eine bewegliche Verbindung", "eine unlösbare Verbindung"], "c": 1, "h": "Das Schieberad ändert im Betrieb seine Lage auf der Welle.", "e": "Die Lage ändert sich im Betrieb. Die Verbindung ist beweglich."}, {"q": "Ein Längsanschlag an einer Bandsäge wird verschoben und dann festgeklemmt. Wie gilt diese Verbindung im Betrieb?", "o": ["fest", "beweglich", "unlösbar"], "c": 0, "h": "Während gesägt wird, bewegt sich der Anschlag nicht.", "e": "Verstellte und festgeklemmte Teile sind im Betrieb fest verbunden."}, {"q": "Woran erkennen Sie eine bewegliche Verbindung?", "o": ["Die Teile lassen sich zerlegen.", "Die Lage der Teile zueinander ändert sich im Betrieb.", "Die Teile sind verschweißt."], "c": 1, "h": "Es geht um die Lage der Teile, nicht um das Zerlegen.", "e": "Beweglich heißt: Die Teile bewegen sich im Betrieb gegeneinander."}]}, "E": {"title": "E  Lösbare und unlösbare Verbindungen", "quiz": [{"q": "Ein Schutzgitter ist mit Blindnieten an einem Gestell befestigt. Wie bekommen Sie das Gitter ab?", "o": ["Niete aufbohren", "Niete herausdrehen", "Niete mit dem Hammer zurückschlagen"], "c": 0, "h": "Niete sind unlösbare Verbindungen.", "e": "Unlösbare Verbindungen muss man zerstören. Niete werden aufgebohrt."}, {"q": "Welche dieser Verbindungen ist lösbar?", "o": ["Lötverbindung", "Klebeverbindung", "Schraubenverbindung", "Schweißnaht"], "c": 2, "h": "Welche Verbindung kann man auseinanderbauen, ohne etwas zu zerstören?", "e": "Schrauben kann man lösen und wieder verwenden."}, {"q": "Ein Gehäusedeckel ist mit Schrauben befestigt. Welche Kombination passt?", "o": ["beweglich und lösbar", "fest und lösbar", "fest und unlösbar", "beweglich und unlösbar"], "c": 1, "h": "Bewegt sich der Deckel im Betrieb? Kann man die Schrauben lösen?", "e": "Der Deckel bewegt sich nicht und die Schrauben sind lösbar: fest und lösbar."}]}, "F": {"title": "F  Lösbarkeit und Instandsetzung", "quiz": [{"q": "Im Ersatzteilkatalog eines Ventilators steht: „Lüfterrad mit Nabe – nur komplett lieferbar (vernietet)“. Was bedeutet das?", "o": ["Lüfterrad und Nabe sind lösbar verbunden.", "Lüfterrad und Nabe sind beweglich verbunden.", "Lüfterrad und Nabe sind unlösbar verbunden. Man tauscht beide zusammen."], "c": 2, "h": "Achten Sie auf „vernietet“ und „nur komplett“.", "e": "Vernietet ist unlösbar. Darum gibt es nur die ganze Baugruppe."}, {"q": "An einer Schraubenverbindung ist das Gewinde einer Schraube beschädigt. Was machen Sie?", "o": ["Die Schraube erneuern.", "Die Schraube festschweißen.", "Die Schraube mit Klebstoff weiter verwenden."], "c": 0, "h": "Die Verbindung ist lösbar.", "e": "Bei lösbaren Verbindungen ersetzt man verschlissene Verbindungselemente."}, {"q": "Was tun Sie, bevor Sie ein Teil an einer Maschine tauschen?", "o": ["Die Maschine im Leerlauf weiterlaufen lassen.", "Nur den Not-Halt drücken.", "Ausschalten und gegen Wiedereinschalten sichern."], "c": 2, "h": "Niemand darf die Maschine während der Arbeit einschalten können.", "e": "Ausschalten und den Hauptschalter abschließen. So kann niemand die Maschine einschalten."}]}};
+const AREAS = {1: ['A','B','C'], 2: ['D','E','F']};
+const BASIC = {1: ['A','B'], 2: ['D','E','F']};
+let area = 1, current = null, answered = {};
+let done = new Set();
+try { done = new Set(JSON.parse(localStorage.getItem('lf3_fv_done') || '[]')); } catch (e) {}
+function save() { try { localStorage.setItem('lf3_fv_done', JSON.stringify([...done])); } catch (e) {} }
+function msg(id, text, kind) { const m = document.getElementById(id); m.className = 'msg on ' + kind; m.textContent = text; }
+function clearMsg(id) { document.getElementById(id).className = 'msg'; }
+function locked(k) { return k === 'C' && !(done.has('A') && done.has('B')); }
+function showArea(a) {
+  area = a; closeModule();
+  document.getElementById('tab-1').classList.toggle('on', a === 1);
+  document.getElementById('tab-2').classList.toggle('on', a === 2);
+  document.getElementById('cards-1').style.display = a === 1 ? 'grid' : 'none';
+  document.getElementById('cards-2').style.display = a === 2 ? 'grid' : 'none';
+  try { history.replaceState(null, '', '#bereich' + a); } catch (e) {}
+  refresh();
+}
+function refresh() {
+  Object.keys(MODS).forEach(k => {
+    const c = document.getElementById('card-' + k);
+    c.classList.toggle('done', done.has(k)); c.classList.toggle('locked', locked(k));
+  });
+  const ks = AREAS[area], n = ks.filter(k => done.has(k)).length;
+  const p = document.getElementById('prog');
+  p.style.width = Math.max(n / ks.length * 100, 0) + '%';
+  p.textContent = n ? n + ' von ' + ks.length + ' Modulen abgeschlossen' : '';
+  const b = document.getElementById('badge');
+  const basicDone = BASIC[area].every(k => done.has(k));
+  b.classList.toggle('on', basicDone);
+  if (basicDone) {
+    document.getElementById('badge-t').textContent = area === 1 ? 'Bereich 1 geschafft!' : 'Bereich 2 geschafft!';
+    document.getElementById('badge-p').textContent = (area === 1 && !done.has('C')) ? 'Die Vertiefung C ist jetzt freigeschaltet.' : 'Sie haben alle Verständnis-Checks dieses Bereichs bestanden.';
+  }
+}
+function openModule(k) {
+  clearMsg('omsg');
+  if (locked(k)) { msg('omsg', '🔒 Die Vertiefung C wird freigeschaltet, wenn die Module A und B abgeschlossen sind.', 'warn'); return; }
+  current = k; answered = {};
+  const m = MODS[k];
+  let h = '<h2>' + m.title + '</h2>' + document.getElementById('tpl-' + k).innerHTML;
+  h += '<div class="check"><h3>📝 Verständnis-Check</h3>';
+  m.quiz.forEach((q, i) => {
+    h += '<div class="q" id="q' + i + '"><div class="qt">' + (i + 1) + '. ' + q.q + '</div>';
+    q.o.forEach((o, j) => { h += '<button class="opt" id="o' + i + '_' + j + '" onclick="pick(' + i + ',' + j + ')">' + o + '</button>'; });
+    h += '<div class="fb" id="fb' + i + '"></div></div>';
+  });
+  h += '</div><div class="actions"><button class="b s" onclick="closeModule()">← Übersicht</button><button class="b p" onclick="finish()">Modul abschließen ✓</button></div><div class="msg" id="vmsg"></div>';
+  const v = document.getElementById('view'); v.innerHTML = h; v.classList.add('on');
+  document.getElementById('overview').style.display = 'none';
+  window.scrollTo(0, 0);
+}
+function pick(i, j) {
+  const q = MODS[current].quiz[i];
+  q.o.forEach((_, x) => document.getElementById('o' + i + '_' + x).classList.toggle('sel', x === j));
+  const ok = j === q.c; answered[i] = ok;
+  const box = document.getElementById('q' + i), fb = document.getElementById('fb' + i);
+  box.className = 'q ' + (ok ? 'ok' : 'no');
+  fb.className = 'fb ' + (ok ? 'ok' : 'no');
+  fb.textContent = ok ? '✓ Richtig! ' + q.e : '✗ Noch nicht richtig. Hinweis: ' + q.h;
+}
+function finish() {
+  const n = MODS[current].quiz.length;
+  for (let i = 0; i < n; i++) if (!answered[i]) { msg('vmsg', 'Beantworten Sie zuerst alle Fragen richtig.', 'warn'); return; }
+  const wasC = done.has('C');
+  done.add(current); save();
+  closeModule();
+  msg('omsg', '🎉 Modul ' + current + ' abgeschlossen!' + ((current === 'A' || current === 'B') && done.has('A') && done.has('B') && !wasC ? ' 🔓 Die Vertiefung C ist freigeschaltet.' : ''), 'good');
+  refresh();
+}
+function closeModule() {
+  const v = document.getElementById('view'); v.classList.remove('on'); v.innerHTML = '';
+  document.getElementById('overview').style.display = 'block';
+}
+showArea(location.hash === '#bereich2' ? 2 : 1);
+</script>
+</body>
+</html>

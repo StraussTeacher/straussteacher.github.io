@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wissensportal – Alle Fertigungsverfahren im Überblick</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--teal:#0b5563;--teal2:#0e6b7c;--orange:#f39229;--bg:#f4f7f8;--line:#d6e0e3;--text:#1f2d33;--muted:#55666d}
+body{font-family:"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text);font-size:17px;line-height:1.6}
+.top{background:#fff;border-bottom:4px solid var(--teal);padding:10px 16px}
+.top .in{max-width:1000px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.top img{height:54px}
+.top .t1{font-weight:700;color:var(--teal);font-size:1.15rem}
+.top .t2{color:var(--muted);font-size:.9rem}
+.variant{margin-left:auto;display:flex;gap:6px;align-items:center;font-size:.9rem}
+.variant a{padding:6px 12px;border-radius:999px;border:2px solid var(--teal);color:var(--teal);text-decoration:none;font-weight:600}
+.variant a.on{background:var(--teal);color:#fff}
+main{max-width:1000px;margin:0 auto;padding:18px 16px 40px}
+.back{font-size:.9rem;margin-bottom:10px}.back a{color:var(--teal2)}
+h1{font-size:1.6rem;color:var(--teal);margin-bottom:4px}
+.lead{color:var(--muted);margin-bottom:16px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tab{flex:1 1 240px;padding:12px 16px;border:2px solid var(--line);background:#fff;border-radius:10px;cursor:pointer;font-weight:700;font-size:1rem;color:var(--muted);text-align:left;font-family:inherit}
+.tab small{display:block;font-weight:400;font-size:.85rem}
+.tab.on{border-color:var(--teal);color:var(--teal);background:#e6f1f3}
+.pwrap{position:sticky;top:0;z-index:20;background:var(--bg);padding:6px 0 12px;margin-bottom:4px}
+.progress{position:relative;background:#e3eaec;border-radius:999px;height:28px;overflow:hidden;border:1px solid var(--line)}
+.progress .fill{height:100%;width:0;background:linear-gradient(90deg,#9fd8c9,#5cc08f);transition:width .4s}
+.progress .lbl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:var(--text);white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.mcard{background:#fff;border:2px solid var(--line);border-radius:12px;padding:18px;cursor:pointer;position:relative;text-align:left;font-family:inherit;font-size:inherit;color:inherit}
+.mcard:hover:not(.locked){border-color:var(--teal)}
+.mcard .ic{font-size:2rem}
+.mcard h3{color:var(--teal);font-size:1.1rem;margin:6px 0}
+.mcard p{color:var(--muted);font-size:.95rem}
+.mcard.done{border-color:#22a06b}
+.mcard.done::after{content:"✓";position:absolute;top:10px;right:12px;background:#22a06b;color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
+.mcard.locked{opacity:.55;cursor:not-allowed;border-style:dashed}
+.mcard.locked::after{content:"🔒";position:absolute;top:10px;right:12px}
+.mcard.vertiefung{background:#fff8ef;border-color:#f6c58d}
+.view{display:none;background:#fff;border:2px solid var(--line);border-radius:12px;padding:22px}
+.view.on{display:block}
+.view h2{color:var(--teal);font-size:1.35rem;border-bottom:2px solid var(--line);padding-bottom:8px;margin-bottom:14px}
+.view p{margin-bottom:10px}
+.view ul{margin:0 0 12px 22px}.view li{margin-bottom:6px}
+.tablewrap{overflow-x:auto;margin:10px 0 14px}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+@media (max-width:600px){body{font-size:16px}table{font-size:.82rem}th,td{padding:6px}.view{padding:14px}}
+th,td{border:1px solid #c5d2d6;padding:8px 10px;text-align:left;vertical-align:top}
+td.grp{background:#f3f6f7}
+img.cellimg{width:92px;max-width:100%;margin-top:6px;display:block}
+a.mcard{text-decoration:none;color:inherit;display:block}
+.mcard.zusatz{border-style:dotted}
+th{background:#e6eef0;color:var(--teal)}
+.merke{background:#fff4cc;border:2px solid #e9c862;border-radius:8px;padding:12px 14px;margin:12px 0}
+figure{margin:12px 0;text-align:center}figure img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff}
+figcaption{font-size:.85rem;color:var(--muted)}
+.check{margin-top:22px;background:#f1f6f7;border-radius:10px;padding:16px}
+.check h3{color:var(--teal);margin-bottom:12px}
+.q{background:#fff;border:2px solid var(--line);border-radius:8px;padding:14px;margin-bottom:14px}
+.q.ok{border-color:#22a06b;background:#effaf4}.q.no{border-color:#d9534f;background:#fdf0ef}
+.q .qt{font-weight:700;margin-bottom:8px}
+.opt{display:block;width:100%;text-align:left;padding:10px 12px;margin:6px 0;border:1px solid #c5d2d6;border-radius:6px;background:#fafcfc;cursor:pointer;font-family:inherit;font-size:1rem;color:inherit}
+.opt:hover{background:#e6f1f3}.opt.sel{border-color:var(--teal);border-width:2px}
+.fb{display:none;margin-top:8px;padding:10px;border-radius:6px;font-size:.95rem}
+.fb.ok{display:block;background:#22a06b;color:#fff}.fb.no{display:block;background:#d9534f;color:#fff}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.b{padding:12px 20px;border-radius:8px;border:none;font-weight:700;font-size:1rem;cursor:pointer;font-family:inherit}
+.b.p{background:var(--teal);color:#fff}.b.s{background:#7a8a90;color:#fff}
+.msg{display:none;margin-top:12px;padding:12px;border-radius:8px;font-weight:600}
+.msg.on{display:block}.msg.warn{background:#fdecc8;color:#7a4b00}.msg.good{background:#d7f3e3;color:#11603a}
+.badge{display:none;margin-top:16px;background:linear-gradient(135deg,var(--teal),#22a06b);color:#fff;border-radius:12px;padding:22px;text-align:center}
+.badge.on{display:block}.badge .big{font-size:2.6rem}
+.foot{max-width:1000px;margin:0 auto;padding:0 16px 30px;color:var(--muted);font-size:.8rem}
+</style>
+</head>
+<body>
+<div class="top"><div class="in">
+  <img src="../../assets/logo_rednitz_anlagenbau.png" alt="Rednitz Anlagenbau GmbH">
+  <div><div class="t1">Wissensportal</div><div class="t2">Rednitz Anlagenbau GmbH · Ausbildungsabteilung</div></div>
+</div></div>
+<main>
+  <div class="back"><a href="fertigungsverfahren_fuegen.html">← Zurück zu Fertigungsverfahren und Fügen</a></div>
+  <h1>Alle Fertigungsverfahren im Überblick</h1>
+  <p class="lead">Zusatzseite für Interessierte: Nach DIN 8580 wird jede der sechs Hauptgruppen nach der Art der Fertigung weiter unterteilt. Die Tabelle zeigt alle Arten mit Beispielen für Verfahren.</p>
+  <div class="view on" style="display:block"><div class="tablewrap"><table><thead><tr><th>Hauptgruppe</th><th>Form</th><th>Zusammenhalt</th><th>Art der Fertigung</th><th>Verfahren (Beispiele)</th></tr></thead><tbody><tr><td rowspan="3" class="grp">1  <strong>Urformen</strong></td><td rowspan="3" class="grp"><strong>geschaffen</strong></td><td rowspan="3" class="grp"><strong>geschaffen</strong></td><td>aus dem flüssigen oder teigigen Zustand</td><td>Gießen, Druckgießen, Spritzen, Schäumen</td></tr><tr><td>aus dem festen (pulverigen) Zustand</td><td>Sintern von Metallpulvern</td></tr><tr><td>aus dem gasförmigen Zustand</td><td>Aufdampfen</td></tr><tr><td rowspan="5" class="grp">2  <strong>Umformen</strong></td><td rowspan="5" class="grp"><strong>geändert</strong></td><td rowspan="5" class="grp"><strong>beibehalten</strong></td><td>durch Zugkraft</td><td>Weiten, Streckrichten</td></tr><tr><td>durch Druckkraft</td><td>Walzen, Schmieden, Einprägen</td></tr><tr><td>durch Zug- und Druckkraft</td><td>Tiefziehen, Walzziehen</td></tr><tr><td>durch Schubkraft</td><td>Verdrehen</td></tr><tr><td>durch ein Biegemoment</td><td>Biegen, Abkanten, Wickeln</td></tr><tr><td rowspan="5" class="grp">3  <strong>Trennen</strong></td><td rowspan="5" class="grp"><strong>geändert</strong></td><td rowspan="5" class="grp"><strong>verkleinert</strong></td><td>durch Zerteilen</td><td>Abschneiden, Brechen, Reißen</td></tr><tr><td>durch Spanen</td><td>Sägen, Bohren, Drehen, Fräsen, Schleifen, Stoßen, Räumen</td></tr><tr><td>durch Abtragen</td><td>Erodieren, Ätzen</td></tr><tr><td>durch Zerlegen</td><td>Auseinanderschrauben, Aushaken</td></tr><tr><td>durch Reinigen</td><td>Bürsten, Strahlen</td></tr><tr><td rowspan="5" class="grp">4  <strong>Fügen</strong></td><td rowspan="5" class="grp"><strong>geändert</strong></td><td rowspan="5" class="grp"><strong>vergrößert</strong></td><td>durch Zusammenlegen</td><td>Einlegen, Ineinanderschieben</td></tr><tr><td>durch An- und Einpressen</td><td>Verschrauben, Klemmen, Einpressen (z. B. Lager)</td></tr><tr><td>durch Urformen</td><td>Ausgießen, Umgießen</td></tr><tr><td>durch Umformen</td><td>Falzen, Vernieten</td></tr><tr><td>durch Stoffverbinden</td><td>Schweißen, Löten, Kleben</td></tr><tr><td rowspan="4" class="grp">5  <strong>Beschichten</strong></td><td rowspan="4" class="grp"><strong>beibehalten</strong></td><td rowspan="4" class="grp"><strong>vergrößert</strong></td><td>aus dem gas- oder dampfförmigen Zustand</td><td>Aufdampfen</td></tr><tr><td>aus dem flüssigen oder pastenförmigen Zustand</td><td>Lackieren, Anstreichen</td></tr><tr><td>aus dem ionisierten Zustand</td><td>Galvanisieren (z. B. Verchromen, Verzinken)</td></tr><tr><td>aus dem festen (pulverigen) Zustand</td><td>Pulverbeschichten, Pulveraufspritzen</td></tr><tr><td rowspan="3" class="grp">6  <strong>Stoffeigenschaft ändern</strong></td><td rowspan="3" class="grp"><strong>beibehalten</strong></td><td rowspan="3" class="grp">beibehalten, verkleinert oder vergrößert</td><td>durch Umlagern von Stoffteilchen</td><td>Glühen, Härten, Anlassen, Vergüten</td></tr><tr><td>durch Aussondern von Stoffteilchen</td><td>Entkohlen, Tempern</td></tr><tr><td>durch Einbringen von Stoffteilchen</td><td>Nitrieren, Aufkohlen</td></tr></tbody></table></div></div>
+</main>
+<div class="foot">Interne Schulungsunterlage der Ausbildungsabteilung · Rednitz Anlagenbau GmbH · Stand 11/2026</div>
+</body>
+</html>

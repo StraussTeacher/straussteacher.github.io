@@ -73,6 +73,32 @@ figcaption{font-size:.85rem;color:var(--muted)}
 .badge{display:none;margin-top:16px;background:linear-gradient(135deg,var(--teal),#22a06b);color:#fff;border-radius:12px;padding:22px;text-align:center}
 .badge.on{display:block}.badge .big{font-size:2.6rem}
 .foot{max-width:1000px;margin:0 auto;padding:0 16px 30px;color:var(--muted);font-size:.8rem}
+.mcard.quiz{background:#f2f8f9}
+#cards-3{grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))}
+.qintro{color:var(--muted);margin-bottom:14px}
+.qq{background:#fff;border:2px solid var(--line);border-radius:8px;padding:14px;margin-bottom:14px}
+.qq.ok{border-color:#22a06b;background:#effaf4}.qq.no{border-color:#d9534f;background:#fdf0ef}.qq.open{border-color:#e0a030;background:#fff8e8}
+.qq .qt{font-weight:700;margin-bottom:8px}
+.qq .qn{display:inline-block;min-width:2em;color:var(--teal)}
+.qopt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;padding:10px 12px;margin:6px 0;border:1px solid #c5d2d6;border-radius:6px;background:#fafcfc;cursor:pointer;font-family:inherit;font-size:1rem;color:inherit}
+.qopt::before{content:"";flex:0 0 18px;height:18px;margin-top:3px;border:2px solid #7a8a90;border-radius:50%;background:#fff}
+.qopt.sel{border-color:var(--teal);border-width:2px;background:#e6f1f3}
+.qopt.sel::before{border-color:var(--teal);background:radial-gradient(circle,var(--teal) 45%,#fff 50%)}
+.qopt:hover:not(:disabled){background:#e6f1f3}
+.qopt:disabled{cursor:default;opacity:.75}
+.qopt.sel.r{border-color:#22a06b;background:#d7f3e3;opacity:1}.qopt.sel.r::before{border-color:#22a06b;background:radial-gradient(circle,#22a06b 45%,#fff 50%)}
+.qopt.sel.w{border-color:#d9534f;background:#fbdcdb;opacity:1}.qopt.sel.w::before{border-color:#d9534f;background:radial-gradient(circle,#d9534f 45%,#fff 50%)}
+.ddrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:8px 0;border-top:1px solid #e3eaec}
+.ddrow:first-of-type{border-top:none}
+.ddrow .dx{flex:1 1 260px}
+.ddrow select{flex:0 1 300px;max-width:100%;padding:9px 10px;font-family:inherit;font-size:1rem;border:2px solid #c5d2d6;border-radius:6px;background:#fff;color:inherit}
+.ddrow select.r{border-color:#22a06b;background:#d7f3e3;opacity:1;color:inherit}.ddrow select.w{border-color:#d9534f;background:#fbdcdb;opacity:1;color:inherit}
+.ddrow select.e{border-color:#e0a030;background:#fff8e8}
+.mark{font-weight:700;margin-left:4px}.mark.r{color:#11603a}.mark.w{color:#b52b27}
+.qstat{margin-top:8px;font-size:.92rem;font-weight:600}.qstat.ok{color:#11603a}.qstat.no{color:#b52b27}.qstat.open{color:#7a4b00}
+.b:disabled{opacity:.4;cursor:not-allowed}
+.b.k{background:var(--orange);color:#1f2d33}
+@media (max-width:600px){.ddrow select{flex:1 1 100%}.actions .b{flex:1 1 45%}}
 </style>
 </head>
 <body>
@@ -88,11 +114,13 @@ figcaption{font-size:.85rem;color:var(--muted)}
   <div class="tabs">
     <button class="tab" id="tab-1" onclick="showArea(1)">Bereich 1: Fertigungsverfahren und Wirkprinzipien<small>Module A, B und Vertiefung C</small></button>
     <button class="tab" id="tab-2" onclick="showArea(2)">Bereich 2: Lösbarkeit und Beweglichkeit von Verbindungen<small>Module D, E und F</small></button>
+    <button class="tab" id="tab-3" onclick="showArea(3)">Bereich 3: Quizzes<small>Je zwei Quizzes zu Bereich 1 und Bereich 2</small></button>
   </div>
   <div class="pwrap"><div class="progress"><div class="fill" id="prog"></div><span class="lbl" id="plbl"></span></div></div>
   <div id="overview">
     <div class="cards" id="cards-1"><button class="mcard" id="card-A" onclick="openModule('A')"><div class="ic">🏭</div><h3>A  Die sechs Hauptgruppen der Fertigungsverfahren</h3><p>Die sechs Fertigungsverfahren nach DIN 8580: von Urformen bis Stoffeigenschaft ändern.</p></button><button class="mcard" id="card-B" onclick="openModule('B')"><div class="ic">🔩</div><h3>B  Wirkprinzipien von Verbindungen (Schlüssigkeit)</h3><p>Formschluss, Kraftschluss, Stoffschluss: Wie halten Verbindungen?</p></button><button class="mcard vertiefung" id="card-C" onclick="openModule('C')"><div class="ic">⭐</div><h3>C  Vertiefung: Vorgespannt formschlüssige Verbindungen</h3><p>Vertiefung: Wenn Kraftschluss und Formschluss zusammenwirken.</p></button><a class="mcard zusatz" href="fertigungsverfahren_uebersicht.html"><div class="ic">📚</div><h3>Zusatz: Alle Fertigungsverfahren im Überblick</h3><p>Für Interessierte: die ausführliche Übersicht mit allen Arten der Fertigung. Ohne Verständnis-Check.</p></a></div>
     <div class="cards" id="cards-2"><button class="mcard" id="card-D" onclick="openModule('D')"><div class="ic">↔️</div><h3>D  Feste und bewegliche Verbindungen</h3><p>Fest oder beweglich: Ändert sich die Lage der Teile im Betrieb?</p></button><button class="mcard" id="card-E" onclick="openModule('E')"><div class="ic">🔧</div><h3>E  Lösbare und unlösbare Verbindungen</h3><p>Lösbar oder unlösbar: Lässt sich die Verbindung ohne Zerstörung zerlegen?</p></button><button class="mcard" id="card-F" onclick="openModule('F')"><div class="ic">🛠️</div><h3>F  Lösbarkeit und Instandsetzung</h3><p>Was die Lösbarkeit für die Instandsetzung bedeutet.</p></button></div>
+    <div class="cards" id="cards-3"><button class="mcard quiz" id="card-Q1" onclick="openQuiz('Q1')"><div class="ic">🧩</div><h3>Quiz 1.1: Fertigungsverfahren und Wirkprinzipien – Grundlagen</h3><p>15 Fragen zu Bereich 1: Hauptgruppen und Wirkprinzipien. Zum Einstieg.</p></button><button class="mcard quiz" id="card-Q2" onclick="openQuiz('Q2')"><div class="ic">🏆</div><h3>Quiz 1.2: Fertigungsverfahren und Wirkprinzipien – Praxis</h3><p>15 Fragen zu Bereich 1 mit Fällen aus der Werkstatt. Für Fortgeschrittene.</p></button><button class="mcard quiz" id="card-Q3" onclick="openQuiz('Q3')"><div class="ic">🧩</div><h3>Quiz 2.1: Lösbarkeit und Beweglichkeit – Grundlagen</h3><p>15 Fragen zu Bereich 2: fest, beweglich, lösbar, unlösbar. Zum Einstieg.</p></button><button class="mcard quiz" id="card-Q4" onclick="openQuiz('Q4')"><div class="ic">🏆</div><h3>Quiz 2.2: Lösbarkeit und Beweglichkeit – Praxis</h3><p>15 Fragen zu Bereich 2 mit Fällen aus der Instandhaltung. Für Fortgeschrittene.</p></button></div>
     <div class="msg" id="omsg"></div>
     <div class="badge" id="badge"><div class="big">🏅</div><h2 id="badge-t"></h2><p id="badge-p"></p></div>
   </div>
@@ -130,10 +158,10 @@ function clearMsg(id) { document.getElementById(id).className = 'msg'; }
 function locked(k) { return k === 'C' && !(done.has('A') && done.has('B')); }
 function showArea(a) {
   area = a; closeModule();
-  document.getElementById('tab-1').classList.toggle('on', a === 1);
-  document.getElementById('tab-2').classList.toggle('on', a === 2);
-  document.getElementById('cards-1').style.display = a === 1 ? 'grid' : 'none';
-  document.getElementById('cards-2').style.display = a === 2 ? 'grid' : 'none';
+  [1, 2, 3].forEach(x => {
+    document.getElementById('tab-' + x).classList.toggle('on', a === x);
+    document.getElementById('cards-' + x).style.display = a === x ? 'grid' : 'none';
+  });
   try { history.replaceState(null, '', '#bereich' + a); } catch (e) {}
   refresh();
 }
@@ -142,6 +170,16 @@ function refresh() {
     const c = document.getElementById('card-' + k);
     c.classList.toggle('done', done.has(k)); c.classList.toggle('locked', locked(k));
   });
+  Object.keys(QUIZ).forEach(k => document.getElementById('card-' + k).classList.toggle('done', qdone.has(k)));
+  if (area === 3) {
+    const qk = Object.keys(QUIZ), qn = qk.filter(k => qdone.has(k)).length;
+    document.getElementById('prog').style.width = (qn / qk.length * 100) + '%';
+    document.getElementById('plbl').textContent = 'Bereich 3: ' + qn + ' von ' + qk.length + ' Quizzes bestanden';
+    const qb = document.getElementById('badge'), allq = qn === qk.length;
+    qb.classList.toggle('on', allq);
+    if (allq) { document.getElementById('badge-t').textContent = 'Bereich 3 geschafft!'; document.getElementById('badge-p').textContent = 'Sie haben alle vier Quizzes bestanden.'; }
+    return;
+  }
   const ks = AREAS[area], n = ks.filter(k => done.has(k)).length;
   const p = document.getElementById('prog');
   p.style.width = Math.max(n / ks.length * 100, 0) + '%';
@@ -190,10 +228,119 @@ function finish() {
   refresh();
 }
 function closeModule() {
+  cq = null;
   const v = document.getElementById('view'); v.classList.remove('on'); v.innerHTML = '';
   document.getElementById('overview').style.display = 'block';
 }
-showArea(location.hash === '#bereich2' ? 2 : 1);
+const QUIZ = {"Q1": {"area": 1, "nr": "1.1", "title": "Quiz 1.1: Fertigungsverfahren und Wirkprinzipien – Grundlagen", "qs": [{"t": "mc", "q": "Wie viele Hauptgruppen der Fertigungsverfahren gibt es nach DIN 8580?", "o": ["vier", "fünf", "sechs", "acht"], "c": 2}, {"t": "dd", "q": "Ordnen Sie jedem Verfahren die passende Hauptgruppe zu.", "r": [{"x": "Gießen", "o": ["Urformen", "Umformen", "Trennen", "Fügen", "Beschichten", "Stoffeigenschaft ändern"], "c": 0}, {"x": "Biegen", "o": ["Urformen", "Umformen", "Trennen", "Fügen", "Beschichten", "Stoffeigenschaft ändern"], "c": 1}, {"x": "Bohren", "o": ["Urformen", "Umformen", "Trennen", "Fügen", "Beschichten", "Stoffeigenschaft ändern"], "c": 2}, {"x": "Löten", "o": ["Urformen", "Umformen", "Trennen", "Fügen", "Beschichten", "Stoffeigenschaft ändern"], "c": 3}]}, {"t": "mc", "q": "Bei welcher Hauptgruppe entsteht aus einem formlosen Stoff ein festes Werkstück?", "o": ["Fügen", "Umformen", "Beschichten", "Urformen"], "c": 3}, {"t": "dd", "q": "Vervollständigen Sie den Satz.", "r": [{"x": "Beim Umformen wird die Form ___", "o": ["geschaffen.", "geändert.", "beibehalten."], "c": 1}, {"x": "und der Zusammenhalt wird ___", "o": ["geschaffen.", "beibehalten.", "verkleinert.", "vergrößert."], "c": 1}]}, {"t": "mc", "q": "Was passiert beim Trennen mit dem Zusammenhalt des Werkstoffs?", "o": ["Er wird geschaffen.", "Er wird verkleinert.", "Er bleibt erhalten.", "Er wird vergrößert."], "c": 1}, {"t": "mc", "q": "Welches Verfahren gehört zur Hauptgruppe Beschichten?", "o": ["Lackieren", "Glühen", "Sägen", "Schmieden"], "c": 0}, {"t": "mc", "q": "Welches Verfahren gehört zur Hauptgruppe „Stoffeigenschaft ändern“?", "o": ["Räumen", "Nitrieren", "Walzen", "Kleben"], "c": 1}, {"t": "dd", "q": "Welches Wirkprinzip ist beschrieben?", "r": [{"x": "Die Teile greifen mit ihrer Form ineinander.", "o": ["Formschluss", "Kraftschluss", "Stoffschluss"], "c": 0}, {"x": "Die Teile werden aufeinandergepresst und halten durch Reibung.", "o": ["Formschluss", "Kraftschluss", "Stoffschluss"], "c": 1}, {"x": "Werkstoff hält die Teile zusammen.", "o": ["Formschluss", "Kraftschluss", "Stoffschluss"], "c": 2}]}, {"t": "mc", "q": "Welche Verbindung ist stoffschlüssig?", "o": ["Keilwellenverbindung", "Stiftverbindung", "Klemmverbindung", "Klebeverbindung"], "c": 3}, {"t": "mc", "q": "Wodurch wird die Reibung in einer kraftschlüssigen Verbindung größer?", "o": ["durch einen Tropfen Öl", "durch eine größere Anpresskraft", "durch Fett auf den Flächen", "durch glatt polierte Flächen"], "c": 1}, {"t": "mc", "q": "Jonas Wagner baut einen defekten Motor auseinander und schraubt dazu den Deckel ab. Zu welcher Hauptgruppe gehört das Auseinanderschrauben?", "o": ["Trennen", "Fügen", "Urformen", "Umformen"], "c": 0}, {"t": "mc", "q": "Ein Lieferant stellt Pumpengehäuse aus flüssigem Gusseisen her. Was passiert dabei mit Form und Zusammenhalt?", "o": ["Form geändert, Zusammenhalt beibehalten", "Form geändert, Zusammenhalt verkleinert", "Form geschaffen, Zusammenhalt geschaffen", "Form beibehalten, Zusammenhalt vergrößert"], "c": 2}, {"t": "dd", "q": "Für eine Förderanlage wird ein Halter gefertigt. Ordnen Sie jedem Schritt die Hauptgruppe zu.", "r": [{"x": "Blechstreifen von der Tafel abschneiden", "o": ["Urformen", "Umformen", "Trennen", "Fügen", "Beschichten", "Stoffeigenschaft ändern"], "c": 2}, {"x": "Streifen zu einem Winkel biegen", "o": ["Urformen", "Umformen", "Trennen", "Fügen", "Beschichten", "Stoffeigenschaft ändern"], "c": 1}, {"x": "Winkel an eine Grundplatte schweißen", "o": ["Urformen", "Umformen", "Trennen", "Fügen", "Beschichten", "Stoffeigenschaft ändern"], "c": 3}, {"x": "Halter pulverbeschichten", "o": ["Urformen", "Umformen", "Trennen", "Fügen", "Beschichten", "Stoffeigenschaft ändern"], "c": 4}]}, {"t": "mc", "q": "Eine Riemenscheibe ist mit einem Stift auf einer Welle befestigt. Der Stift geht quer durch Nabe und Welle. Welches Wirkprinzip liegt vor?", "o": ["Formschluss", "Kraftschluss", "Stoffschluss"], "c": 0}, {"t": "mc", "q": "Sandra Keller stellt fest: Eine Klemmverbindung an einem Förderband rutscht durch. Auf den Klemmflächen ist Fett. Was ist die Ursache?", "o": ["Das Fett macht die Verbindung formschlüssig.", "Das Fett erhöht die Anpresskraft.", "Das Fett macht die Flächen rau.", "Das Fett verringert die Reibung."], "c": 3}]}, "Q2": {"area": 1, "nr": "1.2", "title": "Quiz 1.2: Fertigungsverfahren und Wirkprinzipien – Praxis", "qs": [{"t": "mc", "q": "Welches Verfahren gehört NICHT zum Trennen?", "o": ["Strahlen", "Erodieren", "Tiefziehen", "Stoßen"], "c": 2}, {"t": "mc", "q": "Wie überträgt eine Pressverbindung das Drehmoment?", "o": ["durch Werkstoff, der die Teile verbindet", "durch Reibung", "durch ineinandergreifende Formen"], "c": 1}, {"t": "dd", "q": "Ein Lagerbolzen für eine Hebebühne entsteht in mehreren Schritten. Ordnen Sie jedem Schritt die Hauptgruppe zu.", "r": [{"x": "Rundstahl wird im Walzwerk aus einem Block hergestellt.", "o": ["Urformen", "Umformen", "Trennen", "Fügen", "Beschichten", "Stoffeigenschaft ändern"], "c": 1}, {"x": "Der Bolzen wird aus dem Rundstahl gedreht.", "o": ["Urformen", "Umformen", "Trennen", "Fügen", "Beschichten", "Stoffeigenschaft ändern"], "c": 2}, {"x": "Die Oberfläche des Bolzens wird nitriert.", "o": ["Urformen", "Umformen", "Trennen", "Fügen", "Beschichten", "Stoffeigenschaft ändern"], "c": 5}, {"x": "Der Bolzen wird in eine Lasche eingepresst.", "o": ["Urformen", "Umformen", "Trennen", "Fügen", "Beschichten", "Stoffeigenschaft ändern"], "c": 3}]}, {"t": "mc", "q": "Ein Lieferant presst Metallpulver in eine Form und erhitzt es. So entstehen kleine Zahnräder (Sintern). Zu welcher Hauptgruppe gehört das?", "o": ["Stoffeigenschaft ändern", "Umformen", "Urformen", "Fügen"], "c": 2}, {"t": "mc", "q": "Selin sagt: „Beim Tiefziehen eines Blechnapfs fällt Werkstoff weg.“ Was stimmt?", "o": ["Ja. Tiefziehen ist Trennen, es entstehen Späne.", "Nein. Tiefziehen ist Urformen, die Form wird geschaffen.", "Ja. Beim Tiefziehen wird der Zusammenhalt verkleinert.", "Nein. Tiefziehen ist Umformen, der Zusammenhalt bleibt."], "c": 3}, {"t": "mc", "q": "Ein Schaltschrank wird lackiert. Welche Aussage stimmt?", "o": ["Die Form wird geändert, der Zusammenhalt bleibt.", "Die Form wird geschaffen, der Zusammenhalt auch.", "Die Form bleibt, der Zusammenhalt wird verkleinert.", "Die Form bleibt, der Zusammenhalt wird vergrößert."], "c": 3}, {"t": "dd", "q": "Welches Wirkprinzip liegt bei diesen Verbindungen an einer Maschine vor?", "r": [{"x": "Nabe auf einer Keilwelle", "o": ["Formschluss", "Kraftschluss", "Stoffschluss"], "c": 0}, {"x": "Lagerring in ein Gehäuse eingepresst", "o": ["Formschluss", "Kraftschluss", "Stoffschluss"], "c": 1}, {"x": "Blechhalter an ein Rohr gelötet", "o": ["Formschluss", "Kraftschluss", "Stoffschluss"], "c": 2}, {"x": "Nabe auf einem Kegel festgezogen (ohne Feder)", "o": ["Formschluss", "Kraftschluss", "Stoffschluss"], "c": 1}]}, {"t": "mc", "q": "Meister Thomas Brandl braucht für ein Getriebe eine Welle-Nabe-Verbindung, die auch mit Öl im Getriebe sicher nicht rutscht. Welche wählen Sie?", "o": ["Passfederverbindung", "Kegelverbindung ohne Feder", "Pressverbindung", "Klemmverbindung"], "c": 0}, {"t": "mc", "q": "Eine Klemmverbindung soll besser halten. Die Schraube darf aber nicht stärker angezogen werden. Was hilft?", "o": ["eine dünnere Schraube einsetzen", "Klemmflächen reinigen und entfetten", "Klemmflächen dünn einölen", "Klemmflächen glatt polieren"], "c": 1}, {"t": "mc", "q": "Eine Antriebsrolle drückt auf eine Stahlplatte und schiebt sie weiter. Warum hat die Rolle einen Gummibelag?", "o": ["Gummi auf Stahl gibt weniger Reibung als Stahl auf Stahl.", "Gummi macht die Verbindung stoffschlüssig.", "Gummi auf Stahl gibt mehr Reibung als Stahl auf Stahl.", "Gummi macht die Verbindung formschlüssig."], "c": 2}, {"t": "mc", "q": "Eine Antriebswelle soll eine harte und sehr genaue Lagerstelle bekommen. Welche Reihenfolge ist sinnvoll?", "o": ["härten → schleifen → drehen", "drehen → härten → schleifen", "härten → drehen → schleifen", "schleifen → drehen → härten"], "c": 1}, {"t": "dd", "q": "Vervollständigen Sie die Aussage von Murat Arslan.", "r": [{"x": "„Eine Schraubenverbindung hält durch ___", "o": ["Formschluss.", "Kraftschluss.", "Stoffschluss."], "c": 1}, {"x": "Kommt Öl zwischen die Flächen, wird die Reibung ___“", "o": ["größer.", "kleiner.", "nicht verändert."], "c": 1}]}, {"t": "mc", "q": "Zwei Stahlteile eines Gestells sollen dauerhaft durch Werkstoff zusammengehalten werden. Welches Verfahren wählen Sie?", "o": ["Klemmen", "Verschrauben", "Verstiften", "Schweißen"], "c": 3}, {"t": "mc", "q": "Bei welchem Paar gehören beide Verfahren zur gleichen Hauptgruppe?", "o": ["Schmieden und Streckrichten", "Lackieren und Fräsen", "Sägen und Gießen", "Kleben und Glühen"], "c": 0}, {"t": "mc", "q": "Vertiefung: Eine Nabe ist mit einer Mutter auf einen Kegel gezogen. Zusätzlich sitzt eine Scheibenfeder in der Nut. Wie wird ein sehr großes Drehmoment übertragen, wenn die Reibung nicht mehr reicht?", "o": ["durch Werkstoff zwischen Nabe und Kegel", "weiterhin nur durch Reibung", "über die Flächen von Scheibenfeder und Nut", "gar nicht, die Nabe dreht dann durch"], "c": 2}]}, "Q3": {"area": 2, "nr": "2.1", "title": "Quiz 2.1: Lösbarkeit und Beweglichkeit – Grundlagen", "qs": [{"t": "mc", "q": "Was bedeutet „lösbare Verbindung“?", "o": ["Man kann die Teile ohne Zerstörung zerlegen und wieder verwenden.", "Die Teile bewegen sich im Betrieb gegeneinander.", "Die Teile werden durch Werkstoff zusammengehalten.", "Man muss die Verbindung aufbohren oder absägen."], "c": 0}, {"t": "mc", "q": "Was bedeutet „feste Verbindung“?", "o": ["Die Teile bewegen sich im Betrieb gegeneinander.", "Die Teile lassen sich nicht ohne Zerstörung zerlegen.", "Die Teile sind immer verschweißt oder verklebt.", "Die Teile haben im Betrieb immer die gleiche Lage zueinander."], "c": 3}, {"t": "dd", "q": "Lösbar oder unlösbar? Ordnen Sie zu.", "r": [{"x": "Stiftverbindung", "o": ["lösbar", "unlösbar"], "c": 0}, {"x": "Nietverbindung", "o": ["lösbar", "unlösbar"], "c": 1}, {"x": "Klemmverbindung", "o": ["lösbar", "unlösbar"], "c": 0}, {"x": "Klebeverbindung", "o": ["lösbar", "unlösbar"], "c": 1}, {"x": "Keilwellenverbindung", "o": ["lösbar", "unlösbar"], "c": 0}]}, {"t": "dd", "q": "Fest oder beweglich? Ordnen Sie zu.", "r": [{"x": "Scharnier einer Schutztür", "o": ["fest", "beweglich"], "c": 1}, {"x": "Zahnrad mit Passfeder auf einer Getriebewelle", "o": ["fest", "beweglich"], "c": 0}, {"x": "Zahnrad und Zahnstange", "o": ["fest", "beweglich"], "c": 1}, {"x": "angeschraubter Motorhalter", "o": ["fest", "beweglich"], "c": 0}]}, {"t": "mc", "q": "Wie zerlegt man eine unlösbare Verbindung?", "o": ["Man zerstört die Verbindungsstelle oder ein Bauteil.", "Man löst die Mutter und zieht die Schraube heraus.", "Man zieht die Passfeder aus der Nut.", "Man verschiebt die Nabe auf der Welle."], "c": 0}, {"t": "mc", "q": "Jede Verbindung hat zwei Merkmale. Welche sind das?", "o": ["Länge und Durchmesser der Teile", "fest oder beweglich sowie lösbar oder unlösbar", "Form und Zusammenhalt des Werkstoffs", "Werkstoff und Farbe der Teile"], "c": 1}, {"t": "mc", "q": "Welcher Hinweis im Ersatzteilkatalog zeigt eine unlösbare Verbindung?", "o": ["„verschraubt“", "„geklemmt“", "„verschweißt“", "„gesteckt“"], "c": 2}, {"t": "mc", "q": "Eine Schutzeinrichtung wurde instand gesetzt. Wer muss sie prüfen, bevor die Maschine wieder verwendet werden darf?", "o": ["jede Person, die an der Maschine arbeitet", "der Lieferant der Maschine", "niemand, wenn das Teil neu ist", "eine befähigte Person"], "c": 3}, {"t": "mc", "q": "Wie sichern Sie eine Maschine gegen Wiedereinschalten?", "o": ["die Schutzhaube abnehmen", "den Not-Halt drücken und weggehen", "die Maschine im Leerlauf laufen lassen", "Hauptschalter ausschalten und abschließen"], "c": 3}, {"t": "mc", "q": "Welche Verbindung ist beweglich und unlösbar?", "o": ["ein Deckel mit vier Schrauben", "das vernietete Gelenk einer Zange", "ein Schieberad auf einer Keilwelle", "eine Schweißnaht an einem Rahmen"], "c": 1}, {"t": "mc", "q": "Der Schlitten einer Drehmaschine fährt im Betrieb auf seiner Führung hin und her. Welche Verbindung liegt zwischen Schlitten und Führung vor?", "o": ["eine stoffschlüssige Verbindung", "eine feste Verbindung", "eine bewegliche Verbindung", "eine unlösbare Verbindung"], "c": 2}, {"t": "mc", "q": "An einer Maschine ist ein Warnschild aufgeklebt. Es soll durch ein neues ersetzt werden. Was stimmt?", "o": ["Die Klebung ist beweglich. Das Schild lässt sich verschieben.", "Die Klebung ist unlösbar. Das alte Schild wird dabei zerstört.", "Die Klebung ist lösbar. Das alte Schild kann wieder verwendet werden.", "Die Klebung ist formschlüssig. Das Schild lässt sich ausklinken."], "c": 1}, {"t": "dd", "q": "Welche Kombination passt zu diesen Bauteilen?", "r": [{"x": "Grundrahmen aus verschweißten Profilen", "o": ["fest und lösbar", "fest und unlösbar", "beweglich und lösbar", "beweglich und unlösbar"], "c": 1}, {"x": "Motor mit Schrauben auf einer Konsole", "o": ["fest und lösbar", "fest und unlösbar", "beweglich und lösbar", "beweglich und unlösbar"], "c": 0}, {"x": "Zahnrad treibt die Zahnstange einer Hubvorrichtung an", "o": ["fest und lösbar", "fest und unlösbar", "beweglich und lösbar", "beweglich und unlösbar"], "c": 2}]}, {"t": "mc", "q": "Lea soll eine verschlissene Passfeder in einem Getriebe tauschen. Wie geht sie vor?", "o": ["Welle und Nabe zusammenschweißen", "Verbindung lösen, Passfeder erneuern, wieder montieren", "die ganze Maschine austauschen", "Passfeder aufbohren und eine neue einkleben"], "c": 1}, {"t": "mc", "q": "Murat Arslan braucht eine Halterung, die man für Wartungsarbeiten oft abnehmen muss. Wie befestigen Sie die Halterung?", "o": ["Verschrauben", "Kleben", "Schweißen", "Nieten"], "c": 0}]}, "Q4": {"area": 2, "nr": "2.2", "title": "Quiz 2.2: Lösbarkeit und Beweglichkeit – Praxis", "qs": [{"t": "mc", "q": "Womit zerlegt man unlösbare Verbindungen?", "o": ["Ölen, Fetten, Reinigen", "Lösen, Abziehen, Herausdrehen", "Aufbohren, Trennschleifen, Absägen", "Lackieren, Polieren, Verzinken"], "c": 2}, {"t": "mc", "q": "Was passiert beim Schweißen mit einer Pulverbeschichtung an der Schweißstelle?", "o": ["Sie wird härter und schützt besser.", "Sie verbrennt. Die Stelle kann danach rosten.", "Sie wird dicker und glatter.", "Sie bleibt unverändert erhalten."], "c": 1}, {"t": "mc", "q": "Selin fragt: „Warum sind Schutzhauben meistens angeschraubt und nicht angeschweißt?“ Was antworten Sie?", "o": ["Die Haube soll sich im Betrieb bewegen können.", "Eine Schweißnaht hält an Schutzhauben nicht.", "Man kann sie für Wartung abnehmen, ohne etwas zu zerstören.", "Schrauben sind stoffschlüssig und halten deshalb besser."], "c": 2}, {"t": "mc", "q": "Im Ersatzteilkatalog einer Bandsäge steht: „Bandrad mit Lagerbolzen – Bolzen verschweißt, nur komplett lieferbar“. Der Lagerbolzen ist verschlissen. Was bestellen Sie?", "o": ["das Bandrad mit Lagerbolzen komplett", "nur neue Schrauben für den Bolzen", "nur einen neuen Lagerbolzen", "nichts, der alte Bolzen wird nachgeschweißt"], "c": 0}, {"t": "mc", "q": "Tim hat an einer Schleifmaschine eine neue Schutzhaube montiert. Wer gibt die Maschine wieder frei?", "o": ["Sandra Keller als befähigte Person", "Lea nach einem kurzen Probelauf", "Tim, weil er die Haube montiert hat", "der Lieferant der Haube am Telefon"], "c": 0}, {"t": "dd", "q": "Wie gehen Sie bei der Instandsetzung vor? Ordnen Sie zu.", "r": [{"x": "Abdeckblech mit Schrauben befestigt", "o": ["lösen, Teil tauschen, wieder montieren", "zerstören, neu fügen oder Baugruppe tauschen"], "c": 0}, {"x": "Konsole an den Rahmen geschweißt", "o": ["lösen, Teil tauschen, wieder montieren", "zerstören, neu fügen oder Baugruppe tauschen"], "c": 1}, {"x": "Riemenscheibe mit Passfeder auf der Welle", "o": ["lösen, Teil tauschen, wieder montieren", "zerstören, neu fügen oder Baugruppe tauschen"], "c": 0}, {"x": "Lüftungsgitter in das Gehäuse geklebt", "o": ["lösen, Teil tauschen, wieder montieren", "zerstören, neu fügen oder Baugruppe tauschen"], "c": 1}]}, {"t": "mc", "q": "Ein Kettenrad sitzt mit einer Passfeder auf einer Welle. Das Kettenrad ist abgenutzt. Welche Aussage stimmt?", "o": ["Die Verbindung ist beweglich und lösbar. Das Kettenrad bleibt.", "Die Verbindung ist fest und unlösbar. Die Welle wird mit getauscht.", "Die Verbindung ist beweglich und unlösbar. Alles wird getauscht.", "Die Verbindung ist fest und lösbar. Das Kettenrad wird einzeln getauscht."], "c": 3}, {"t": "mc", "q": "Sandra Keller hat vor einer Instandsetzung den Hauptschalter einer Fräsmaschine abgeschlossen. Warum?", "o": ["Damit die Schutzhaube während der Arbeit besser hält.", "Damit niemand die Maschine während der Arbeit einschalten kann.", "Damit die Maschine während der Arbeit schneller abkühlt.", "Damit der Strom für die Beleuchtung gespart wird."], "c": 1}, {"t": "mc", "q": "Ein Anschlag muss in der Fertigung oft verstellt und danach wieder festgemacht werden. Welche Verbindung ist geeignet?", "o": ["Nietverbindung", "Klebeverbindung", "Schweißverbindung", "Klemmverbindung"], "c": 3}, {"t": "mc", "q": "Jonas Wagner sagt: „Ein Scharnier ist unlösbar, weil es sich bewegt.“ Was stimmt?", "o": ["Richtig. Ein Scharnier ist eine feste Verbindung.", "Falsch. Ob lösbar, hängt vom Zerlegen ab, nicht von der Bewegung.", "Falsch. Bewegliche Verbindungen sind immer stoffschlüssig.", "Richtig. Bewegliche Verbindungen sind immer unlösbar."], "c": 1}, {"t": "dd", "q": "Die beiden Klingen einer Blechschere drehen sich um einen vernieteten Bolzen. Vervollständigen Sie den Satz.", "r": [{"x": "Die Verbindung der Klingen ist ___", "o": ["fest", "beweglich"], "c": 1}, {"x": "und ___ .", "o": ["lösbar", "unlösbar"], "c": 1}]}, {"t": "mc", "q": "Ein Gummipuffer ist an eine Konsole geklebt. Die Klebung hat sich gelöst. Was ist zu tun?", "o": ["die Klebung mit dem Schraubenschlüssel nachziehen", "den Puffer wieder andrücken, er hält von allein", "Klebereste entfernen und neu kleben oder den Puffer tauschen", "eine Passfeder zwischen Puffer und Konsole setzen"], "c": 2}, {"t": "mc", "q": "Welches Teil kann man im Ersatzteilkatalog am ehesten einzeln bestellen?", "o": ["ein Zahnrad, das mit einer Passfeder auf der Welle sitzt", "ein Blech, das an einen Rahmen geschweißt ist", "einen Hebel, der an eine Welle gelötet ist", "einen Gewindebolzen, der in einen Rahmen geklebt ist"], "c": 0}, {"t": "mc", "q": "An einer pulverbeschichteten Schutzhaube ist ein Halter abgerissen. Ein Kollege will ihn anschweißen und die Maschine sofort weiter nutzen. Was ist falsch?", "o": ["Schweißen ist lösbar und hält deshalb nicht lange.", "Schweißen ist formschlüssig und deshalb ungeeignet.", "Nichts. Nach dem Schweißen darf man sofort weiterarbeiten.", "Die Beschichtung verbrennt und die Haube muss vorher geprüft werden."], "c": 3}, {"t": "dd", "q": "Ein Zahnriemenrad ist mit einer Klemmbuchse auf der Welle befestigt (Klemmverbindung). Ordnen Sie zu.", "r": [{"x": "fest oder beweglich?", "o": ["fest", "beweglich"], "c": 0}, {"x": "lösbar oder unlösbar?", "o": ["lösbar", "unlösbar"], "c": 0}, {"x": "Wirkprinzip?", "o": ["Formschluss", "Kraftschluss", "Stoffschluss"], "c": 1}]}]}};
+
+let qdone = new Set(), qstate = {}, cq = null;
+try { qdone = new Set(JSON.parse(sessionStorage.getItem('lf3_fv_quiz_done') || '[]')); qstate = JSON.parse(sessionStorage.getItem('lf3_fv_quiz_state') || '{}'); } catch (e) {}
+function qsave() { try { sessionStorage.setItem('lf3_fv_quiz_done', JSON.stringify([...qdone])); sessionStorage.setItem('lf3_fv_quiz_state', JSON.stringify(qstate)); } catch (e) {} }
+function qst(id) {
+  if (!qstate[id]) qstate[id] = { a: {}, checked: false, fix: {}, first: null };
+  return qstate[id];
+}
+// Auswertung einer Frage: 'ok' | 'no' | 'open'; parts = Ergebnis je Antwortfeld
+function qeval(id, i) {
+  const q = QUIZ[id].qs[i], s = qst(id), a = s.a[i];
+  if (q.t === 'mc') {
+    if (a === undefined || a === null) return { st: 'open', parts: [null] };
+    return { st: a === q.c ? 'ok' : 'no', parts: [a === q.c] };
+  }
+  const parts = q.r.map((r, k) => (a && a[k] !== undefined && a[k] !== null && a[k] >= 0) ? a[k] === r.c : null);
+  const st = parts.some(p => p === false) ? 'no' : (parts.some(p => p === null) ? 'open' : 'ok');
+  return { st, parts };
+}
+function openQuiz(id) {
+  clearMsg('omsg'); cq = id; current = null;
+  renderQuiz(); document.getElementById('overview').style.display = 'none';
+  document.getElementById('view').classList.add('on');
+  window.scrollTo(0, 0);
+}
+function renderQuiz() {
+  const id = cq, Q = QUIZ[id], s = qst(id);
+  let h = '<h2>' + Q.title + '</h2><p class="qintro">Beantworten Sie alle 15 Fragen. Klicken Sie danach ganz unten auf <strong>Prüfen</strong>. Mit <strong>Korrigieren</strong> werden nur die falschen Antworten entfernt und Sie können diese Fragen neu beantworten.</p>';
+  Q.qs.forEach((q, i) => {
+    const ev = s.checked ? qeval(id, i) : null;
+    const fx = s.fix[i] || [];
+    h += '<div class="qq' + (ev ? ' ' + ev.st : '') + '" id="qq' + i + '"><div class="qt"><span class="qn">' + (i + 1) + '.</span> ' + q.q + '</div>';
+    if (q.t === 'mc') {
+      const a = s.a[i], lock = s.checked || fx[0];
+      q.o.forEach((o, j) => {
+        let cls = 'qopt' + (a === j ? ' sel' : '');
+        if (a === j && (s.checked || fx[0])) cls += (j === q.c ? ' r' : ' w');
+        h += '<button class="' + cls + '" id="qo' + i + '_' + j + '" onclick="qpick(' + i + ',' + j + ')"' + (lock ? ' disabled' : '') + '><span>' + o + (a === j && (s.checked || fx[0]) ? (j === q.c ? ' <span class="mark r">✓</span>' : ' <span class="mark w">✗</span>') : '') + '</span></button>';
+      });
+    } else {
+      const a = s.a[i] || [];
+      q.r.forEach((r, k) => {
+        const v = (a[k] === undefined || a[k] === null) ? -1 : a[k];
+        const lock = s.checked || fx[k];
+        let cls = '';
+        if (s.checked || fx[k]) cls = v < 0 ? (s.checked ? 'e' : '') : (v === r.c ? 'r' : 'w');
+        h += '<div class="ddrow"><span class="dx">' + r.x + '</span><select id="qs' + i + '_' + k + '" class="' + cls + '" onchange="qsel(' + i + ',' + k + ',this.value)"' + (lock ? ' disabled' : '') + '><option value="-1">– bitte wählen –</option>';
+        r.o.forEach((o, j) => { h += '<option value="' + j + '"' + (v === j ? ' selected' : '') + '>' + o + '</option>'; });
+        h += '</select>' + (cls === 'r' ? '<span class="mark r">✓</span>' : cls === 'w' ? '<span class="mark w">✗</span>' : '') + '</div>';
+      });
+    }
+    if (ev) h += '<div class="qstat ' + ev.st + '">' + (ev.st === 'ok' ? '✓ Richtig' : ev.st === 'no' ? '✗ Nicht richtig' : '⚠ Nicht vollständig beantwortet') + '</div>';
+    h += '</div>';
+  });
+  const res = s.checked ? Q.qs.map((_, i) => qeval(id, i).st) : [];
+  const nOk = res.filter(x => x === 'ok').length, all = s.checked && nOk === Q.qs.length;
+  h += '<div class="actions">';
+  h += '<button class="b p" onclick="qcheck()"' + (s.checked ? ' disabled' : '') + '>Prüfen</button>';
+  h += '<button class="b k" onclick="qcorrect()"' + (s.checked && !all ? '' : ' disabled') + '>Korrigieren</button>';
+  h += '<button class="b s" onclick="qrepeat()">Wiederholen</button>';
+  h += '<button class="b s" onclick="closeModule()">← Übersicht</button></div>';
+  h += '<div class="msg" id="qmsg"></div>';
+  document.getElementById('view').innerHTML = h;
+  if (s.checked) {
+    if (all) msg('qmsg', '🎉 Alle ' + Q.qs.length + ' Fragen richtig! Quiz ' + Q.nr + ' bestanden.' + (s.first !== null && s.first < Q.qs.length ? ' Beim ersten Prüfen hatten Sie ' + s.first + ' von ' + Q.qs.length + ' Fragen richtig.' : ''), 'good');
+    else msg('qmsg', nOk + ' von ' + Q.qs.length + ' Fragen richtig. Klicken Sie auf „Korrigieren“ und beantworten Sie die markierten Fragen neu.', 'warn');
+  }
+}
+function qpick(i, j) {
+  const s = qst(cq); if (s.checked || (s.fix[i] || [])[0]) return;
+  s.a[i] = j; qsave();
+  QUIZ[cq].qs[i].o.forEach((_, x) => document.getElementById('qo' + i + '_' + x).classList.toggle('sel', x === j));
+}
+function qsel(i, k, v) {
+  const s = qst(cq); if (s.checked) return;
+  if (!s.a[i]) s.a[i] = []; s.a[i][k] = parseInt(v, 10); qsave();
+}
+function qcheck() {
+  const id = cq, s = qst(id), Q = QUIZ[id];
+  s.checked = true;
+  const nOk = Q.qs.filter((_, i) => qeval(id, i).st === 'ok').length;
+  if (s.first === null) s.first = nOk;
+  if (nOk === Q.qs.length) qdone.add(id);
+  qsave(); renderQuiz(); refresh();
+  document.getElementById('qmsg').scrollIntoView({ block: 'center' });
+}
+function qcorrect() {
+  const id = cq, s = qst(id), Q = QUIZ[id];
+  let first = -1;
+  Q.qs.forEach((q, i) => {
+    const ev = qeval(id, i);
+    if (ev.st !== 'ok' && first < 0) first = i;
+    if (q.t === 'mc') {
+      if (ev.parts[0] === true) s.fix[i] = [true]; else { delete s.a[i]; s.fix[i] = [false]; }
+    } else {
+      s.fix[i] = ev.parts.map(p => p === true);
+      if (!s.a[i]) s.a[i] = [];
+      ev.parts.forEach((p, k) => { if (p !== true) s.a[i][k] = -1; });
+    }
+  });
+  s.checked = false; qsave(); renderQuiz();
+  if (first >= 0) document.getElementById('qq' + first).scrollIntoView({ block: 'start' });
+}
+function qrepeat() {
+  qstate[cq] = { a: {}, checked: false, fix: {}, first: null }; qsave(); renderQuiz();
+  window.scrollTo(0, 0);
+}
+showArea(location.hash === '#bereich3' ? 3 : (location.hash === '#bereich2' ? 2 : 1));
 </script>
 </body>
 </html>
